@@ -9,7 +9,7 @@ const alias = {
   "@app": path.resolve(__dirname, "./app")
 };
 
-module.exports = {
+const clientConfig = {
   mode: production ? "production" : "development",
   entry: "./app/index.tsx",
   devtool: production ? false : "inline-source-map",
@@ -81,4 +81,89 @@ module.exports = {
     compress: true,
     port: 9000
   }
+};
+
+const severConfig = {
+  target: "node",
+  mode: production ? "production" : "development",
+  entry: "./server/index.tsx",
+  devtool: production ? false : "source-map",
+  output: {
+    publicPath: "/",
+    path: path.join(__dirname, "/dist"),
+    filename: "[name]-server.js"
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: path.resolve(__dirname, "index.html")
+    }),
+    new MiniCssExtractPlugin({
+      filename: "[name].css",
+      chunkFilename: "[id].css"
+    })
+    //new BundleAnalyzerPlugin()
+  ],
+  resolve: { alias, extensions: [".ts", ".tsx", ".js"] },
+  module: {
+    rules: [
+      {
+        test: /\.js|tsx?$/,
+        exclude: /(node_modules|bower_components)/,
+        use: [
+          {
+            loader: "babel-loader",
+            options: {
+              presets: [
+                [
+                  require("@babel/preset-env"),
+                  {
+                    corejs: 3,
+                    modules: false,
+                    useBuiltIns: "usage",
+                    targets: {
+                      node: "current"
+                    }
+                  }
+                ],
+                require("@babel/preset-typescript"),
+                [
+                  require("@babel/preset-react"),
+                  {
+                    development: !production
+                  }
+                ]
+              ]
+            }
+          }
+        ]
+      },
+      {
+        test: /\.s[ac]ss$/i,
+        use: [
+          MiniCssExtractPlugin.loader,
+          "css-loader",
+          //'postcss-loader',
+          {
+            loader: "sass-loader"
+          }
+        ]
+      },
+      {
+        test: /\.(woff|woff2|ttf|eot|svg|png|jpg|jpeg|gif)$/i,
+        loader: "file-loader",
+        options: {
+          emitFile: false
+        }
+      }
+    ]
+  },
+  externals: nodeExternals(),
+  node: {
+    __filename: true,
+    __dirname: true
+  }
+};
+
+module.exports = function(env, argv) {
+  return [clientConfig, severConfig];
 };
