@@ -7,7 +7,7 @@
     "start": "NODE_ENV=development webpack",
     "dev": "webpack-dev-server",
     "build": "rm -rf ./dist && NODE_ENV=production webpack",
-    "analyzer": "NODE_ENV=production webpack --profile --json > dist/stats.json"
+    "analyzer": "NODE_ENV=production webpack --profile --json > dist/stats.json && webpack-bundle-analyzer dist/stats.json"
   },
   "devDependencies": {
     "@babel/core": "^7.8.7",

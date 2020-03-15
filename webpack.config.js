@@ -2,11 +2,9 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const nodeExternals = require("webpack-node-externals");
-const BundleAnalyzerPlugin = require("webpack-bundle-analyzer")
-  .BundleAnalyzerPlugin;
 
 const production = process.env.NODE_ENV === "production" ? true : false;
-console.log(process.env.NODE_ENV, production);
+
 const alias = {
   "@app": path.resolve(__dirname, "./app")
 };
