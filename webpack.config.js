@@ -12,7 +12,7 @@ const alias = {
 const clientConfig = {
   mode: production ? "production" : "development",
   entry: "./app/index.tsx",
-  devtool: production ? false : "inline-source-map",
+  devtool: false,
   output: {
     publicPath: "/",
     path: path.join(__dirname, "/dist"),
@@ -20,9 +20,9 @@ const clientConfig = {
     chunkFilename: production ? "[name]-[contenthash].js" : "[id].js"
   },
   plugins: [
-    new HtmlWebpackPlugin({
-      template: path.resolve(__dirname, "index.html")
-    }),
+    // new HtmlWebpackPlugin({
+    //   template: path.resolve(__dirname, "index.html")
+    // }),
     new MiniCssExtractPlugin({
       filename: "[name].css",
       chunkFilename: "[id].css"
@@ -87,16 +87,16 @@ const severConfig = {
   target: "node",
   mode: production ? "production" : "development",
   entry: "./server/index.tsx",
-  devtool: production ? false : "source-map",
+  devtool: false,
   output: {
     publicPath: "/",
     path: path.join(__dirname, "/dist"),
     filename: "[name]-server.js"
   },
   plugins: [
-    new HtmlWebpackPlugin({
-      template: path.resolve(__dirname, "index.html")
-    }),
+    // new HtmlWebpackPlugin({
+    //   template: path.resolve(__dirname, "index.html")
+    // }),
     new MiniCssExtractPlugin({
       filename: "[name].css",
       chunkFilename: "[id].css"

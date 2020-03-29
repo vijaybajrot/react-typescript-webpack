@@ -1,8 +1,9 @@
 import * as React from "react";
-import { render } from "react-dom";
+import { hydrate, render } from "react-dom";
 import { Provider } from "react-redux";
 import { createStore } from "redux";
 import { BrowserRouter } from "react-router-dom";
+//import { loadableReady } from "@loadable/component";
 
 import App from "./App";
 
@@ -27,11 +28,12 @@ const store = createStore(
     window.__REDUX_DEVTOOLS_EXTENSION__()
 );
 
+const root = document.getElementById("root");
 render(
   <Provider store={store}>
     <BrowserRouter>
       <App />
     </BrowserRouter>
   </Provider>,
-  document.getElementById("root")
+  root
 );
