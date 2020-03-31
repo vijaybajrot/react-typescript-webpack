@@ -20,14 +20,20 @@ function clientBuild() {
     target: "http://localhost:5000",
     secure: false
   });
-  const compiler = webpack(clientConfig);
+  let compiler;
+  try {
+    compiler = webpack(clientConfig);
+  } catch (err) {
+    console.error(err);
+  }
 
-  app.use(
-    webpackDevMiddleware(compiler, {
-      logLevel: "error",
-      publicPath: clientConfig.output.publicPath
-    })
-  );
+  const devMiddleware = webpackDevMiddleware(compiler, {
+    logLevel: "info",
+    publicPath: clientConfig.output.publicPath,
+    serverSideRender: true,
+    writeToDisk: true
+  });
+  app.use(devMiddleware);
   app.use(require("webpack-hot-middleware")(compiler));
 
   app.use((req, res) => proxy.web(req, res));

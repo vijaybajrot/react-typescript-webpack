@@ -4,6 +4,7 @@ import * as MiniCssExtractPlugin from "mini-css-extract-plugin";
 import * as nodeExternals from "webpack-node-externals";
 import * as LoadablePlugin from "@loadable/webpack-plugin";
 import { CleanWebpackPlugin } from "clean-webpack-plugin";
+import * as TerserPlugin from "terser-webpack-plugin";
 
 import { alias } from "./common.config";
 
@@ -87,5 +88,9 @@ export default {
       }
     ]
   },
-  externals: ["@loadable/component", nodeExternals()]
+  externals: ["@loadable/component", nodeExternals()],
+  optimization: {
+    minimize: true,
+    minimizer: [new TerserPlugin()]
+  }
 };

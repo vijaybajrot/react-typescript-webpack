@@ -13,6 +13,7 @@ import { ChunkExtractor, ChunkExtractorManager } from "@loadable/server";
 
 import App from "@app/App";
 import Routes from "@app/routes";
+import { isDev } from "./utils";
 
 const app: Express = express();
 
@@ -38,7 +39,6 @@ app.get("**", async (req, res) => {
     currentRoute &&
     currentRoute.component.fetchData &&
     currentRoute.component.fetchData();
-  const assets = loadAssets();
 
   Promise.resolve(fetchData).then(initialData => {
     const context: any = { initialData: initialData };
@@ -66,19 +66,37 @@ app.get("**", async (req, res) => {
     const linkTags = extractor.getLinkTags(); // or extractor.getLinkElements();
     const styleTags = extractor.getStyleTags(); // or extractor.getStyleElements();
     */
-
+    const { js, css } = getAssets();
     const data = {
       content: html,
-      linkTags: assets.client.css.map(
-        css => `<link rel="stylesheet" href="${css}"/>`
-      ),
-      scriptTags: assets.client.js.map(
-        js => `<script type="text/javascript" src="${js}"></script>`
-      )
+      linkTags: css.join("\n"),
+      scriptTags: js.join("\n")
     };
     return res.render("index", data);
   });
 });
+
+function getAssets() {
+  const assets = loadAssets();
+  let css = assets.client.css.map(
+    css => `<link rel="stylesheet" href="${css}"/>`
+  );
+  let js = [];
+
+  if (isDev()) {
+    js = [`<script type="text/javascript" src="/main.js"></script>`];
+  } else {
+    js = assets.client.js.map(
+      js => `<script type="text/javascript" src="${js}"></script>`
+    );
+  }
+
+  return {
+    css,
+    js,
+    assets
+  };
+}
 
 function loadAssets() {
   return JSON.parse(

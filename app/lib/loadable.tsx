@@ -1,30 +1,5 @@
 import * as React from "react";
 
-// interface LoadableProps {
-//   load: Function;
-//   children: (Component: React.ComponentClass) => any;
-// }
-
-// export class Loadable extends React.PureComponent<LoadableProps, {}> {
-//   public state;
-//   constructor(props) {
-//     super(props);
-//     this.state = {
-//       component: null
-//     };
-//   }
-//   componentWillMount() {
-//     this.props.load().then(_module => {
-//       this.setState(() => ({
-//         component: _module.default
-//       }));
-//     });
-//   }
-//   render() {
-//     return this.props.children(this.state.component);
-//   }
-// }
-
 const Loading = () => <h2>Loading...</h2>;
 
 function Loader(props) {

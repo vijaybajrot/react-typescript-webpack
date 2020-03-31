@@ -3,14 +3,15 @@ import * as webpack from "webpack";
 import * as MiniCssExtractPlugin from "mini-css-extract-plugin";
 import * as LoadablePlugin from "@loadable/webpack-plugin";
 import { CleanWebpackPlugin } from "clean-webpack-plugin";
+import * as TerserPlugin from "terser-webpack-plugin";
 
 import { alias } from "./common.config";
 
 export default {
   name: "client",
   mode: "production",
-  devtool: false,
   entry: path.resolve("app/index.tsx"),
+  devtool: false,
   output: {
     publicPath: "/",
     path: path.resolve("dist"),
@@ -73,5 +74,9 @@ export default {
         ]
       }
     ]
+  },
+  optimization: {
+    minimize: true,
+    minimizer: [new TerserPlugin()]
   }
 };

@@ -1,9 +1,8 @@
 import * as React from "react";
-import { hydrate, render } from "react-dom";
+import { hydrate } from "react-dom";
 import { Provider } from "react-redux";
 import { createStore } from "redux";
 import { BrowserRouter } from "react-router-dom";
-//import { loadableReady } from "@loadable/component";
 
 import App from "./App";
 
@@ -29,7 +28,7 @@ const store = createStore(
 );
 
 const root = document.getElementById("root");
-render(
+hydrate(
   <Provider store={store}>
     <BrowserRouter>
       <App />

@@ -5,12 +5,11 @@
   "license": "MIT",
   "scripts": {
     "test-config": "webpack --config tools/test.config.js",
-    "start": "NODE_ENV=development webpack --env.platform=server",
+    "start": "yarn dev",
     "dev": "NODE_ENV=development ts-node tools/dev.ts",
-    "prod": "ts-node tools/prod.ts",
-    "dev:server-test": "NODE_ENV=development webpack --config tools/config/dev-server.config.js",
-    "build": "rm -rf ./dist && NODE_ENV=production webpack",
-    "analyzer": "NODE_ENV=production webpack --profile --json > dist/stats.json && webpack-bundle-analyzer dist/stats.json"
+    "prod": "NODE_ENV=production ts-node tools/prod.ts",
+    "build": "yarn prod",
+    "analyzer": "webpack-bundle-analyzer dist/stats.json"
   },
   "devDependencies": {
     "@babel/core": "^7.8.7",

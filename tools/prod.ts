@@ -12,8 +12,6 @@ function main() {
       const builds = stats.toJson({ assets: true }).children;
       fs.writeFileSync(
         path.join(__dirname, "../build/assets.json"),
-        // client: builds[0].assetsByChunkName,
-        //   server: builds[1].assetsByChunkName,
         JSON.stringify({
           client: createAssets(
             clientConfig.output.publicPath,

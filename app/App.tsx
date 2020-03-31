@@ -1,24 +1,10 @@
 import * as React from "react";
 import { Route, Switch, Link } from "react-router-dom";
 
-import Routes from "./routes";
-import "./style.scss";
+import Routes from "@app/routes";
+import Header from "@app/components/Header";
 
-function Header() {
-  return (
-    <ul>
-      <li>
-        <Link to="/">Home</Link>
-      </li>
-      <li>
-        <Link to="/about">About Us</Link>
-      </li>
-      <li>
-        <Link to="/contact">Contact</Link>
-      </li>
-    </ul>
-  );
-}
+import "./style.scss";
 
 export default class App extends React.PureComponent {
   render() {
@@ -26,8 +12,8 @@ export default class App extends React.PureComponent {
       <>
         <Header />
         <Switch>
-          {Routes.map(({ component, ...routeProps }, index) => {
-            return <Route key={index} component={component} {...routeProps} />;
+          {Routes.map(({ component: Component, ...routeProps }, index) => {
+            return <Route key={index} component={Component} {...routeProps} />;
           })}
         </Switch>
       </>

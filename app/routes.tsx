@@ -1,40 +1,23 @@
-import * as React from "react";
 import { RouteProps } from "react-router-dom";
-
-import { Home } from "@app/pages/Home";
-import { About } from "@app/pages/About";
-import { Contact } from "@app/pages/Contact";
-
-import loadable from "@loadable/component";
-//import { loadable } from "@app/loadable";
+import { loadable } from "@app/lib/loadable";
 
 interface RouterProps extends RouteProps {}
 
-// const Loadpage = page => {
-//   return (
-//     <Loadable load={() => import(page)}>
-//       {(Component: React.ComponentClass) =>
-//         Component === null
-//           ? React.createElement("h1", null, "Loading..")
-//           : React.createElement(Component, null)
-//       }
-//     </Loadable>
-//   );
-// };
-const Loading = () => <h2>Loading...</h2>;
 const routes: Array<RouterProps> = [
   {
     path: "/",
-    component: Home,
+    component: loadable(async () => (await import("@app/pages/Home")).Home),
     exact: true
   },
   {
     path: "/about",
-    component: About
+    component: loadable(async () => (await import("@app/pages/About")).About)
   },
   {
     path: "/contact",
-    component: Contact
+    component: loadable(
+      async () => (await import("@app/pages/Contact")).Contact
+    )
   }
 ];
 
