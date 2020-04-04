@@ -29,7 +29,7 @@ Loader.defaultProps = {
   loader: <Loading />
 };
 
-export function loadable(load, forwardRef = false, loader = null, id = null) {
+export function loadable(load, forwardRef = false, loader = <Loading />, id) {
   function Component(props) {
     return (
       <Loader

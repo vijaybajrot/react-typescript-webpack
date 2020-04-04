@@ -1,10 +1,8 @@
 import * as path from "path";
-import * as MiniCssExtractPlugin from "mini-css-extract-plugin";
 import * as nodeExternals from "webpack-node-externals";
 import * as webpack from "webpack";
-import * as LoadablePlugin from "@loadable/webpack-plugin";
 
-import { alias } from "./common.config";
+import { alias, cacheLoader, postCssLoader } from "./common.config";
 
 export default {
   name: "server",
@@ -13,24 +11,12 @@ export default {
   entry: path.resolve("server/index.tsx"),
   devtool: "source-map",
   output: {
-    publicPath: "/",
+    publicPath: "/dist/",
     path: path.resolve("build"),
-    filename: "[name]-server.js",
+    filename: "[name].js",
     chunkFilename: "[id].chunk.js",
-    libraryTarget: "commonjs2"
+    libraryTarget: "commonjs2",
   },
-  plugins: [
-    // new HtmlWebpackPlugin({
-    //   template: path.resolve(__dirname, "index.html")
-    // }),
-
-    //new LoadablePlugin({ filename: "stats.json", writeToDisk: true }),
-    new MiniCssExtractPlugin({
-      filename: "[name].css",
-      chunkFilename: "[id].css"
-    })
-    //new BundleAnalyzerPlugin()
-  ],
   resolve: { alias, extensions: [".ts", ".tsx", ".js"] },
   module: {
     rules: [
@@ -38,6 +24,7 @@ export default {
         test: /\.js|tsx?$/,
         exclude: /(node_modules|bower_components)/,
         use: [
+          cacheLoader(),
           {
             loader: "babel-loader",
             options: {
@@ -49,42 +36,57 @@ export default {
                     modules: false,
                     useBuiltIns: "usage",
                     targets: {
-                      node: "current"
-                    }
-                  }
+                      node: "current",
+                    },
+                  },
                 ],
                 require("@babel/preset-typescript"),
                 [
                   require("@babel/preset-react"),
                   {
-                    development: true
-                  }
-                ]
-              ]
-              //plugins: ["@loadable/babel-plugin"]
-            }
-          }
-        ]
+                    development: true,
+                  },
+                ],
+              ],
+              plugins: [
+                "@babel/plugin-syntax-dynamic-import",
+                "@babel/plugin-proposal-class-properties",
+                "@babel/plugin-proposal-export-default-from",
+                "@babel/plugin-proposal-export-namespace-from",
+              ],
+            },
+          },
+        ],
       },
       {
         test: /\.s[ac]ss$/i,
         use: [
-          MiniCssExtractPlugin.loader,
-          "css-loader",
-          //'postcss-loader',
+          cacheLoader(),
           {
-            loader: "sass-loader"
-          }
-        ]
+            loader: "css-loader",
+            options: {
+              modules: {
+                localIdentName: "[path][name]__[local]--[hash:base64:5]",
+              },
+              onlyLocals: true,
+            },
+          },
+          postCssLoader(),
+          "sass-loader",
+        ],
       },
       {
         test: /\.(woff|woff2|ttf|eot|svg|png|jpg|jpeg|gif)$/i,
         loader: "file-loader",
         options: {
-          emitFile: false
-        }
-      }
-    ]
+          emitFile: false,
+        },
+      },
+    ],
   },
-  externals: ["@loadable/component", nodeExternals()]
+  externals: ["@loadable/component", nodeExternals()],
+  node: {
+    __filename: true,
+    __dirname: true,
+  },
 };

@@ -1,8 +1,6 @@
 import * as path from "path";
-import * as MiniCssExtractPlugin from "mini-css-extract-plugin";
-//import * as LoadablePlugin from "@loadable/webpack-plugin";
-
-import { production, alias } from "./common.config";
+import * as webpack from "webpack";
+import { production, alias, cacheLoader, postCssLoader } from "./common.config";
 
 export default {
   name: "client",
@@ -10,18 +8,12 @@ export default {
   entry: path.resolve("app/index.tsx"),
   devtool: "inline-source-map",
   output: {
-    publicPath: "/",
+    publicPath: "/dist/",
     path: path.resolve("dist"),
     filename: "[name].js",
-    chunkFilename: "[id].js"
+    chunkFilename: "[id].js",
   },
-  plugins: [
-    //new LoadablePlugin({ filename: "stats.json", writeToDisk: true }),
-    new MiniCssExtractPlugin({
-      filename: "[name].css",
-      chunkFilename: "[id].css"
-    })
-  ],
+  plugins: [new webpack.HotModuleReplacementPlugin()],
   resolve: { alias, extensions: [".ts", ".tsx", ".js"] },
   module: {
     rules: [
@@ -29,6 +21,7 @@ export default {
         test: /\.js|tsx?$/,
         exclude: /(node_modules|bower_components)/,
         use: [
+          cacheLoader(),
           {
             loader: "babel-loader",
             options: {
@@ -40,34 +33,47 @@ export default {
                     modules: false,
                     useBuiltIns: "usage",
                     targets: {
-                      esmodules: true
-                    }
-                  }
+                      esmodules: true,
+                    },
+                  },
                 ],
                 require("@babel/preset-typescript"),
                 [
                   require("@babel/preset-react"),
                   {
-                    development: true
-                  }
-                ]
-              ]
-              //plugins: ["@loadable/babel-plugin"]
-            }
-          }
-        ]
+                    development: true,
+                  },
+                ],
+              ],
+              plugins: [
+                "@babel/plugin-syntax-dynamic-import",
+                "@babel/plugin-proposal-class-properties",
+                "@babel/plugin-proposal-export-default-from",
+                "@babel/plugin-proposal-export-namespace-from",
+              ],
+            },
+          },
+        ],
       },
       {
         test: /\.s[ac]ss$/i,
         use: [
-          MiniCssExtractPlugin.loader,
-          "css-loader",
-          //'postcss-loader',
+          cacheLoader(),
+          "style-loader",
           {
-            loader: "sass-loader"
-          }
-        ]
-      }
-    ]
-  }
+            loader: "css-loader",
+            options: {
+              modules: {
+                localIdentName: "[path][name]__[local]--[hash:base64:5]",
+              },
+            },
+          },
+          postCssLoader(),
+          {
+            loader: "sass-loader",
+          },
+        ],
+      },
+    ],
+  },
 };

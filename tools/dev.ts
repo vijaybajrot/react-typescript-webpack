@@ -18,7 +18,7 @@ function clientBuild() {
   const app: Express = express();
   const proxy = httpProxy.createProxyServer({
     target: "http://localhost:5000",
-    secure: false
+    secure: false,
   });
   let compiler;
   try {
@@ -31,7 +31,7 @@ function clientBuild() {
     logLevel: "info",
     publicPath: clientConfig.output.publicPath,
     serverSideRender: true,
-    writeToDisk: true
+    writeToDisk: true,
   });
   app.use(devMiddleware);
   app.use(require("webpack-hot-middleware")(compiler));
@@ -43,7 +43,7 @@ function clientBuild() {
 }
 
 function serverBuild() {
-  const inspect = false;
+  const inspect = true;
   const serverConfig = require("./config/dev-server.config").default;
   const compiler = webpack(serverConfig);
   let hash = null;
@@ -55,7 +55,7 @@ function serverBuild() {
       if (hash === null) {
         nodemon(
           (inspect ? "--inspect" : "") +
-            " build/main-server.js" +
+            " build/main.js" +
             " --watch build --watch backend"
         );
       }

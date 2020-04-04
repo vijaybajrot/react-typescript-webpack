@@ -3,9 +3,12 @@ import * as path from "path";
 import * as webpack from "webpack";
 
 function main() {
-  const clientConfig = require("./config/prod.config").default;
+  const [
+    clientBrowserConfig,
+    clientConfig
+  ] = require("./config/prod.config").default;
   const serverConfig = require("./config/prod-server.config").default;
-  const compiler = webpack([clientConfig, serverConfig]);
+  const compiler = webpack([serverConfig, clientBrowserConfig, clientConfig]);
 
   compiler.run((err, stats) => {
     if (stats) {
@@ -13,13 +16,13 @@ function main() {
       fs.writeFileSync(
         path.join(__dirname, "../build/assets.json"),
         JSON.stringify({
-          client: createAssets(
-            clientConfig.output.publicPath,
-            builds[0].entrypoints.main.assets
-          ),
-          server: createAssets(
-            serverConfig.output.publicPath,
+          script: createAssets(
+            clientBrowserConfig.output.publicPath,
             builds[1].entrypoints.main.assets
+          ),
+          module: createAssets(
+            clientConfig.output.publicPath,
+            builds[2].entrypoints.main.assets
           )
         })
       );
