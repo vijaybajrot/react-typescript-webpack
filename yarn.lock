@@ -816,6 +816,13 @@
   dependencies:
     regenerator-runtime "^0.13.4"
 
+"@babel/runtime@^7.8.3":
+  version "7.9.2"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.9.2.tgz#d90df0583a3a252f09aaa619665367bae518db06"
+  integrity sha512-NE2DtOdufG7R5vnfQUTehdTfNycfUANEtCa9PssN9O/xmTzP4E08UI797ixaei6hBEVL9BI/PsdJS5x7mWoB9Q==
+  dependencies:
+    regenerator-runtime "^0.13.4"
+
 "@babel/template@^7.8.3", "@babel/template@^7.8.6":
   version "7.8.6"
   resolved "https://registry.yarnpkg.com/@babel/template/-/template-7.8.6.tgz#86b22af15f828dfb086474f964dcc3e39c43ce2b"
@@ -6107,6 +6114,13 @@ react-dom@^16.13.0:
     object-assign "^4.1.1"
     prop-types "^15.6.2"
     scheduler "^0.19.0"
+
+react-head@^3.3.0:
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/react-head/-/react-head-3.3.0.tgz#582e27c5386226cc679b3524783565115544ae03"
+  integrity sha512-KdHymb+DQ7X+lb4mqLw8wxMwA28W0nx5SsBl2JG40XnFftjS4bozJScIbAEtChUhuap+Q5NLjtXp6ftCN5+SPA==
+  dependencies:
+    "@babel/runtime" "^7.8.3"
 
 react-is@^16.6.0, react-is@^16.7.0, react-is@^16.8.1, react-is@^16.9.0:
   version "16.13.0"

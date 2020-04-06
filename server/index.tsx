@@ -10,25 +10,17 @@ import { Express } from "express";
 import { renderToString } from "react-dom/server";
 import { StaticRouter } from "react-router-dom";
 import { Provider } from "react-redux";
-import { createStore } from "redux";
+import { HeadProvider } from "react-head";
 
 import App from "@app/App";
 import preload from "@app/lib/preload";
+import { store as createStore } from "@app/store";
 
 import { isDev } from "./utils";
 
 const app: Express = express();
 
-const rootReducer = function (state = {}, action) {
-  switch (action.type) {
-    case "INIT_VIEW":
-      return action.data || state;
-    default:
-      return state;
-  }
-};
-
-const store = createStore(rootReducer);
+const store = createStore({});
 
 app.use("/dist", express.static("dist"));
 app.set("view engine", "ejs");
@@ -37,14 +29,17 @@ app.set("views", path.resolve("server/views"));
 
 app.get("**", async (req, res) => {
   try {
-    await preload(App, { location: parsePath(req.url) });
-
+    await preload(App, { store, location: parsePath(req.url), isDev });
+    store.dispatch({ type: "INIT_APP" });
+    const headTags = [];
     let html;
     try {
       html = renderToString(
         <Provider store={store}>
           <StaticRouter location={req.url} context={{}}>
-            <App />
+            <HeadProvider headTags={headTags}>
+              <App />
+            </HeadProvider>
           </StaticRouter>
         </Provider>
       );
@@ -54,6 +49,8 @@ app.get("**", async (req, res) => {
     const { js, css } = getAssets();
     const data = {
       content: html,
+      state: store.getState(),
+      headTags: renderToString(headTags),
       linkTags: css.join("\n"),
       scriptTags: js.join("\n"),
     };

@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Route, Switch } from "react-router-dom";
+import { Title, Meta } from "react-head";
 
 import routes from "@app/routes";
 import Header from "@app/components/Header";
@@ -40,6 +41,8 @@ export default class App extends React.PureComponent {
     const error = this.state.error || this.props.error;
     return (
       <>
+        <Title>React Head</Title>
+        <Meta name="example" content="whatever" />
         {error ? (
           <pre>{JSON.stringify(error, null, 2)}</pre>
         ) : (
