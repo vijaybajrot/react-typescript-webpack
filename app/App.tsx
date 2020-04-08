@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch } from "react-router";
 import { Title, Meta } from "react-head";
 
 import routes from "@app/routes";
@@ -48,13 +48,21 @@ export default class App extends React.PureComponent {
         ) : (
           <>
             <Header />
-            <Switch>
-              {routes.map(({ component: Component, ...routeProps }, index) => {
-                return (
-                  <Route key={index} component={Component} {...routeProps} />
-                );
-              })}
-            </Switch>
+            <main>
+              <Switch>
+                {routes.map(
+                  ({ component: Component, ...routeProps }, index) => {
+                    return (
+                      <Route
+                        key={index}
+                        component={Component}
+                        {...routeProps}
+                      />
+                    );
+                  }
+                )}
+              </Switch>
+            </main>
           </>
         )}
       </>

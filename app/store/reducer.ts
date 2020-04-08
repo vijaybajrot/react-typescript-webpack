@@ -1,6 +1,6 @@
 import { combineReducers } from "redux";
 
-import { views } from "@app/utils";
+import { views } from "@app/utils/redux";
 
 function view(state = {}, action) {
   switch (action.type) {
@@ -22,6 +22,7 @@ function view(state = {}, action) {
         next[key] = views[key](state[key], action);
         changed = changed || next[key] !== state[key];
       }
+
       return changed ? next : state;
     }
   }

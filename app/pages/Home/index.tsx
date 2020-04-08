@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import style from "./style.scss";
-import { addView, connector } from "@app/utils";
+import { addView, connector } from "@app/utils/redux";
 
 function reducer(state = {}, action) {
   switch (action.type) {
@@ -12,11 +12,11 @@ function reducer(state = {}, action) {
   }
 }
 
-addView("Home", reducer);
-
+addView("home", reducer);
 class HomePage extends React.PureComponent {
-  static fetchData({ store }) {
-    return store.dispatch({ type: "INIT_VIEW", view: "Home" });
+  static async fetchData({ store }) {
+    //store.dispatch({ type: "INIT_VIEW", view: "home" });
+    return true;
   }
   render() {
     //console.log({ page: this.props });
@@ -24,4 +24,4 @@ class HomePage extends React.PureComponent {
     return <h1 className={style.HomeHeading}>Home Page Updated</h1>;
   }
 }
-export const Home = connector("Home", HomePage);
+export const Home = connector("home", HomePage);

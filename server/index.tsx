@@ -8,7 +8,7 @@ import { renderFile } from "ejs";
 import * as express from "express";
 import { Express } from "express";
 import { renderToString } from "react-dom/server";
-import { StaticRouter } from "react-router-dom";
+import { StaticRouter } from "react-router";
 import { Provider } from "react-redux";
 import { HeadProvider } from "react-head";
 
@@ -98,6 +98,6 @@ function loadAssets() {
 const port = process.env.PORT || 3000;
 app.listen(port, () =>
   console.log(
-    `Nodejs app running on port http://localhost:${port} (${process.env.NODE_ENV}) `
+    `Nodejs app running on http://localhost:${port} (${process.env.NODE_ENV}) `
   )
 );

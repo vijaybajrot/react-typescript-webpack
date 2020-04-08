@@ -7,14 +7,14 @@ export const production = process.env.NODE_ENV === "production" ? true : false;
 export const alias = {
   "@app": path.resolve("app"),
   "@server": path.resolve("server"),
-  "@lib": path.resolve("lib")
+  "@lib": path.resolve("lib"),
 };
 
-export const externals = [nodeExternals];
+export const externals = [nodeExternals()];
 
 export function cacheLoader() {
   return {
-    loader: "cache-loader"
+    loader: "cache-loader",
   };
 }
 
@@ -22,8 +22,8 @@ export function postCssLoader() {
   const result = {
     loader: "postcss-loader",
     options: {
-      plugins: [autoprefixer()]
-    }
+      plugins: [autoprefixer()],
+    },
   };
 
   return result;

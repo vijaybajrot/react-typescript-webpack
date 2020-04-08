@@ -43,7 +43,7 @@ function clientBuild() {
 }
 
 function serverBuild() {
-  const inspect = true;
+  const inspect = process.env.APP_DEBUG || false;
   const serverConfig = require("./config/dev-server.config").default;
   const compiler = webpack(serverConfig);
   let hash = null;

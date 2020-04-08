@@ -1,9 +1,9 @@
 import * as React from "react";
 import { hydrate } from "react-dom";
 import { Provider } from "react-redux";
-import { BrowserRouter } from "react-router-dom";
+import { Router as BrowserRouter } from "react-router";
 import { createBrowserHistory as createHistory } from "history";
-import { HeadProvider, Title, Link, Meta } from "react-head";
+import { HeadProvider } from "react-head";
 
 import preload from "@app/lib/preload";
 import { store as createStore } from "@app/store";
@@ -11,17 +11,20 @@ import { store as createStore } from "@app/store";
 import App from "./App";
 
 async function main() {
-  const store = createStore();
+  const state = JSON.parse(document.getElementById("store-state").textContent);
+  const store = createStore(state);
 
   const history = createHistory();
   if (!history) {
     await loadPage(history.location, true);
   }
 
+  const unlisten = history.listen((locaction) => loadPage(locaction));
+
   const root = document.getElementById("root");
   hydrate(
     <Provider store={store}>
-      <BrowserRouter>
+      <BrowserRouter history={history}>
         <HeadProvider>
           <App />
         </HeadProvider>

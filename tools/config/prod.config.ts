@@ -22,7 +22,6 @@ export function createConfig(browser: boolean) {
     },
     plugins: [
       new webpack.ProgressPlugin(),
-      new CleanWebpackPlugin(),
       new MiniCssExtractPlugin({
         filename: "[contenthash].css",
         chunkFilename: "[contenthash].css",

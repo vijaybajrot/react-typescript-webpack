@@ -1,10 +1,27 @@
 import * as React from "react";
 
-export class About extends React.PureComponent {
-  static fetchData() {
-    return { name: "about page" };
+import { addView, connector } from "@app/utils/redux";
+
+function reducer(state = {}, action) {
+  switch (action.type) {
+    case "INIT_VIEW":
+      return { Page: "About us", some: true };
+    default:
+      return state;
+  }
+}
+
+addView("about", reducer);
+
+class AboutPage extends React.PureComponent {
+  static fetchData({ store }) {
+    store.dispatch({ type: "TERM_VIEW", view: "about" });
+    return store.dispatch({ type: "INIT_VIEW", view: "about" });
   }
   render() {
+    //console.log({ page: this.props });
+    if (this.props.loading === true) return "Loading about page";
     return <h1>About Page Loaded</h1>;
   }
 }
+export const About = connector("about", AboutPage);
