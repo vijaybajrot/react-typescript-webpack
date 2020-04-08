@@ -18,6 +18,9 @@ import { store as createStore } from "@app/store";
 
 import { isDev } from "./utils";
 
+import style from "!!raw-loader!sass-loader!@app/components/Loading/style.scss";
+let styles = `<style>${style.replace(/\s+/gm, " ")}</style>`;
+
 const app: Express = express();
 
 const store = createStore({});
@@ -31,8 +34,8 @@ app.get("**", async (req, res) => {
   try {
     await preload(App, { store, location: parsePath(req.url), isDev });
     store.dispatch({ type: "INIT_APP" });
-    const headTags = [];
-    let html;
+    const headTags: any = [];
+    let html: string;
     try {
       html = renderToString(
         <Provider store={store}>
@@ -50,6 +53,7 @@ app.get("**", async (req, res) => {
     const data = {
       content: html,
       state: store.getState(),
+      styles,
       headTags: renderToString(headTags),
       linkTags: css.join("\n"),
       scriptTags: js.join("\n"),

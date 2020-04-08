@@ -21,6 +21,11 @@ async function main() {
 
   const unlisten = history.listen((locaction) => loadPage(locaction));
 
+  const loader = document.getElementById("loader");
+  if (loader) {
+    loader.remove();
+  }
+
   const root = document.getElementById("root");
   hydrate(
     <Provider store={store}>
