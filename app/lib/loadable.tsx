@@ -1,6 +1,6 @@
 import * as React from "react";
 
-const Loading = () => <h2>Loading...</h2>;
+import Loading from "@app/components/Loading";
 
 function Loader(props) {
   const { id, loader, load, forwardedProps, forwardedRef } = props;
@@ -8,7 +8,7 @@ function Loader(props) {
   /* eslint-disable no-undef, babel/camelcase */
   React.useEffect(() => {
     if (id && __webpack_modules__[id] && !!component) return;
-    load().then(component => setComponent(() => component));
+    load().then((component) => setComponent(() => component));
   }, [id, component, load]);
   component =
     id && __webpack_modules__[id] ? __webpack_require__(id).default : component;
@@ -26,7 +26,7 @@ function Loader(props) {
 }
 
 Loader.defaultProps = {
-  loader: <Loading />
+  loader: <Loading />,
 };
 
 export function loadable(load, forwardRef = false, loader = <Loading />, id) {

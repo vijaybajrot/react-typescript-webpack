@@ -1,11 +1,12 @@
 import * as React from "react";
 import { Route, Switch } from "react-router";
 import { Title, Meta } from "react-head";
+import Container from "react-bootstrap/Container";
 
 import routes from "@app/routes";
 import Header from "@app/components/Header";
 
-import "./style.scss";
+import "./app.scss";
 
 export function inspectError(err: any) {
   if (process.env.NODE_ENV === "production") {
@@ -46,7 +47,7 @@ export default class App extends React.PureComponent {
         {error ? (
           <pre>{JSON.stringify(error, null, 2)}</pre>
         ) : (
-          <>
+          <Container>
             <Header />
             <main>
               <Switch>
@@ -63,7 +64,7 @@ export default class App extends React.PureComponent {
                 )}
               </Switch>
             </main>
-          </>
+          </Container>
         )}
       </>
     );

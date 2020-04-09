@@ -60,19 +60,27 @@ export default {
       },
       {
         test: /\.s[ac]ss$/i,
-        use: [
-          cacheLoader(),
+        oneOf: [
           {
-            loader: "css-loader",
-            options: {
-              modules: {
-                localIdentName: "[path][name]__[local]--[hash:base64:5]",
-              },
-              onlyLocals: true,
-            },
+            test: /app.scss/,
+            use: "null-loader",
           },
-          postCssLoader(),
-          "sass-loader",
+          {
+            use: [
+              cacheLoader(),
+              {
+                loader: "css-loader",
+                options: {
+                  modules: {
+                    localIdentName: "[path][name]__[local]--[hash:base64:5]",
+                  },
+                  onlyLocals: true,
+                },
+              },
+              postCssLoader(),
+              "sass-loader",
+            ],
+          },
         ],
       },
       {

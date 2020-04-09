@@ -12,7 +12,7 @@ function reducer(state = {}, action) {
   }
 }
 
-addView("home", reducer);
+//addView("home", reducer);
 class HomePage extends React.PureComponent {
   static async fetchData({ store }) {
     //store.dispatch({ type: "INIT_VIEW", view: "home" });
@@ -21,7 +21,7 @@ class HomePage extends React.PureComponent {
   render() {
     //console.log({ page: this.props });
     //if (this.props.loading === true) return "Loading page";
-    return <h1 className={style.HomeHeading}>Home Page Updated</h1>;
+    return <div className={style.HomeHeading}>Home Page Updated</div>;
   }
 }
-export const Home = connector("home", HomePage);
+export const Home = HomePage;

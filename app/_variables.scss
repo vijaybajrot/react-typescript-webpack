@@ -1,0 +1,63 @@
+@import "~bootstrap/scss/_functions.scss";
+
+$primary: #05a4b1;
+$light-gray: #f2f2f2;
+$info: #fb8b77;
+$dark: #b6b5bb;
+$green: #167339;
+
+$body-color: #262433;
+$body-bg: #fbfbfc;
+
+$Border__color: #e4e4e5;
+
+$small-font-size: 90%;
+$enable-responsive-font-sizes: true;
+
+$link-hover-decoration: none;
+
+$font-family-sans-serif: "Open Sans";
+
+$border-radius: 0.25rem;
+$border-radius-lg: 0.3rem;
+$border-radius-sm: 0.2rem;
+
+$input-border-radius: 0;
+$input-border-radius-lg: 0;
+$input-border-radius-sm: 0;
+
+$input-btn-focus-width: 0;
+
+$form-check-input-gutter: 1.25em;
+$form-check-input-margin-y: 0.3em;
+$form-check-input-margin-x: 0.25em;
+
+$form-check-inline-margin-x: 0.75em;
+$form-check-inline-input-margin-x: 0.3125em;
+
+$modal-title-line-height: 1;
+$modal-content-border-width: 0;
+
+$popover-bg: rgb(0, 0, 0);
+$tooltip-bg: $primary;
+
+@import "~bootstrap/scss/_variables.scss";
+
+$popover-body-color: $white;
+$popover-header-color: $white;
+$tooltip-color: $white;
+
+$btn-font-size: 14px;
+$btn-line-height: 34px;
+
+$input-height: calc(2.14em + 0.75rem + 2px);
+$input-line-height: 2.14;
+
+$headings-font-weight: 600;
+$container-max-widths: (
+  xl: 1170px,
+);
+$input-border-radius: 0.25rem;
+$input-font-weight: 600;
+$btn-font-weight: 600;
+$enable-shadows: true !default;

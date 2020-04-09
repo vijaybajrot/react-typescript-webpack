@@ -76,19 +76,33 @@ export function createConfig(browser: boolean) {
         },
         {
           test: /\.s[ac]ss$/i,
-          use: [
-            MiniCssExtractPlugin.loader,
-            cacheLoader(),
+          oneOf: [
             {
-              loader: "css-loader",
-              options: {
-                modules: {
-                  localIdentName: "[hash:base64:5]",
-                },
-              },
+              test: /app.scss/,
+              use: [
+                MiniCssExtractPlugin.loader,
+                cacheLoader(),
+                "css-loader",
+                postCssLoader(),
+                "sass-loader",
+              ],
             },
-            postCssLoader(),
-            "sass-loader",
+            {
+              use: [
+                MiniCssExtractPlugin.loader,
+                cacheLoader(),
+                {
+                  loader: "css-loader",
+                  options: {
+                    modules: {
+                      localIdentName: "[hash:base64:5]",
+                    },
+                  },
+                },
+                postCssLoader(),
+                "sass-loader",
+              ],
+            },
           ],
         },
       ],
