@@ -75,13 +75,12 @@ function getAssets() {
     css = assets.script.css.map(
       (css) => `<link rel="stylesheet" href="${css}"/>`
     );
-    js = assets.script.js.map(
-      (js) => `<script type="text/javascript" src="${js}"></script>`
-    );
     js = [
-      ...js,
       ...assets.module.js.map(
         (module) => `<script type="module" src="${module}"></script>`
+      ),
+      ...assets.script.js.map(
+        (js) => `<script type="text/javascript" src="${js}" nomodule></script>`
       ),
     ];
   }
