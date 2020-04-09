@@ -4,10 +4,10 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "test-config": "webpack --config tools/test.config.js",
+    "test-config": "webpack --config cli/test.config.js",
     "start": "yarn dev",
-    "dev": "rm -rf dist && NODE_ENV=development ts-node tools/dev.ts",
-    "prod": "rm -rf dist && NODE_ENV=production ts-node tools/prod.ts",
+    "dev": "rm -rf dist && NODE_ENV=development ts-node cli/dev.ts",
+    "prod": "rm -rf dist && NODE_ENV=production ts-node cli/prod.ts",
     "build": "yarn prod",
     "analyzer": "webpack-bundle-analyzer dist/stats.json"
   },
