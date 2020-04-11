@@ -10,6 +10,7 @@
     "jsx": "react",
     "allowJs": true,
     "baseUrl": "./",
+    "typeRoots": ["./typings"],
     "paths": {
       "@app/*": ["app/*"],
       "@server/*": ["server/*"],
