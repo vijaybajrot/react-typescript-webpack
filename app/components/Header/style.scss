@@ -1,0 +1,10 @@
+@import "@app/_variables.scss";
+@import "@app/_mixins.scss";
+
+.mainMenu {
+  margin-bottom: 1em;
+  @include border-radius(5px);
+  :global(.navbar-brand) {
+    color: $primary !important;
+  }
+}
