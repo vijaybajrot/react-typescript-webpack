@@ -15,11 +15,9 @@ addView("about", reducer);
 
 class AboutPage extends React.PureComponent {
   static fetchData({ store }) {
-    store.dispatch({ type: "TERM_VIEW", view: "about" });
     return store.dispatch({ type: "INIT_VIEW", view: "about" });
   }
   render() {
-    //console.log({ page: this.props });
     if (this.props.loading === true) return "Loading about page";
     return <h1>About Page Loaded</h1>;
   }

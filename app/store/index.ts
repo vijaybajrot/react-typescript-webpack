@@ -1,19 +1,19 @@
-import { createStore } from "redux";
+import { createStore as createReduxStore } from "redux";
 
 import reducer from "./reducer";
 
-export const store = (initialState) => {
+export const createStore = (initialState) => {
   if (
     process.env.NODE_ENV === "development" &&
     global.__REDUX_DEVTOOLS_EXTENSION__ &&
     global.__REDUX_DEVTOOLS_EXTENSION__()
   ) {
-    return createStore(
+    return createReduxStore(
       reducer,
       initialState,
       global.__REDUX_DEVTOOLS_EXTENSION__()
     );
   } else {
-    return createStore(reducer, initialState);
+    return createReduxStore(reducer, initialState);
   }
 };

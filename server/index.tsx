@@ -14,16 +14,14 @@ import { HeadProvider } from "react-head";
 
 import App from "@app/App";
 import preload from "@app/lib/preload";
-import { store as createStore } from "@app/store";
+import { createStore } from "@app/store";
 
 import { isDev } from "./utils";
 
 import style from "!!raw-loader!sass-loader!@app/components/Loading/style.scss";
-let styles = `<style>${style.replace(/\s+/gm, " ")}</style>`;
+let styles = `<style>${style.toString().replace(/\s+/gm, " ")}</style>`;
 
 const app: Express = express();
-
-const store = createStore({});
 
 app.use("/dist", express.static("dist"));
 app.set("view engine", "ejs");
@@ -31,9 +29,10 @@ app.engine("html", renderFile);
 app.set("views", path.resolve("server/views"));
 
 app.get("**", async (req, res) => {
+  const store = createStore(undefined);
   try {
-    await preload(App, { store, location: parsePath(req.url), isDev });
     store.dispatch({ type: "INIT_APP" });
+    await preload(App, { store, location: parsePath(req.url), isDev });
     const headTags: any = [];
     let html: string;
     try {
@@ -49,8 +48,10 @@ app.get("**", async (req, res) => {
     } catch (error) {
       throw error;
     }
-    const { js, css } = getAssets();
+    const { js, css, assets } = getAssets();
     const data = {
+      __DEV__: isDev(),
+      assets,
       content: html,
       state: store.getState(),
       styles,

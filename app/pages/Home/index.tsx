@@ -12,16 +12,17 @@ function reducer(state = {}, action) {
   }
 }
 
-//addView("home", reducer);
+addView("home", reducer);
+
 class HomePage extends React.PureComponent {
-  static async fetchData({ store }) {
-    //store.dispatch({ type: "INIT_VIEW", view: "home" });
-    return true;
+  static fetchData({ store }) {
+    return store.dispatch({ type: "INIT_VIEW", view: "home" });
   }
   render() {
     //console.log({ page: this.props });
-    //if (this.props.loading === true) return "Loading page";
+    if (this.props.loading === true) return "Loading page";
     return <div className={style.HomeHeading}>Home Page Updated</div>;
   }
 }
-export const Home = HomePage;
+
+export const Home = connector("home", HomePage);

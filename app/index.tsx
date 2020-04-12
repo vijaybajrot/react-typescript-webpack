@@ -5,38 +5,60 @@ import { Router as BrowserRouter } from "react-router";
 import { createBrowserHistory as createHistory } from "history";
 import { HeadProvider } from "react-head";
 
+import env from "@app/utils/env";
 import preload from "@app/lib/preload";
-import { store as createStore } from "@app/store";
+import { createStore } from "@app/store";
 
 import App from "./App";
 
 async function main() {
-  const state = JSON.parse(document.getElementById("store-state").textContent);
-  const store = createStore(state);
-
-  const history = createHistory();
-  if (!history) {
-    await loadPage(history.location, true);
+  if (!env.get("history")) {
+    env.set("history", createHistory());
+    await loadPage(env.get<any>("history").location, true);
   }
 
-  const unlisten = history.listen((locaction) => loadPage(locaction));
+  if (!env.get("store")) {
+    env.set(
+      "store",
+      createStore(
+        JSON.parse(document.getElementById("store-state").textContent)
+      )
+    );
+  }
+
+  const unlisten = env
+    .get<any>("history")
+    .listen((locaction) => loadPage(locaction));
+
+  hydrate(
+    <Provider store={env.get<any>("store")}>
+      <BrowserRouter history={env.get<any>("history")}>
+        <HeadProvider>
+          <App />
+        </HeadProvider>
+      </BrowserRouter>
+    </Provider>,
+    document.getElementById("root")
+  );
 
   const loader = document.getElementById("loader");
   if (loader) {
     loader.remove();
   }
 
-  const root = document.getElementById("root");
-  hydrate(
-    <Provider store={store}>
-      <BrowserRouter history={history}>
-        <HeadProvider>
-          <App />
-        </HeadProvider>
-      </BrowserRouter>
-    </Provider>,
-    root
-  );
+  if (module.hot) {
+    module.hot.dispose(() => {
+      unlisten();
+    });
+
+    // eslint-disable-next-line
+    module.hot.accept(console.error);
+    module.hot.accept("@app/store/reducer", () => {
+      env
+        .get<any>("store")
+        .replaceReducer(require("@app/store/reducer").default);
+    });
+  }
 }
 
 async function loadPage(location, hydrate = false) {
@@ -46,6 +68,7 @@ async function loadPage(location, hydrate = false) {
       await preload(App, {
         location,
         hydrate,
+        store: env.get("store"),
       });
     }
     if (!hydrate && !anchor) {
