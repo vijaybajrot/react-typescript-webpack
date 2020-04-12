@@ -2,8 +2,7 @@ import * as path from "path";
 import * as webpack from "webpack";
 import * as MiniCssExtractPlugin from "mini-css-extract-plugin";
 import * as OptimizeCSSAssetsPlugin from "optimize-css-assets-webpack-plugin";
-
-import { CleanWebpackPlugin } from "clean-webpack-plugin";
+import * as MomentLocalesPlugin from "moment-locales-webpack-plugin";
 import * as TerserPlugin from "terser-webpack-plugin";
 
 import { alias, cacheLoader, postCssLoader } from "./common.config";
@@ -22,6 +21,7 @@ export function createConfig(browser: boolean) {
     },
     plugins: [
       new webpack.ProgressPlugin(),
+      new MomentLocalesPlugin(),
       new MiniCssExtractPlugin({
         filename: "[contenthash].css",
         chunkFilename: "[contenthash].css",

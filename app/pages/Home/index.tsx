@@ -1,7 +1,9 @@
 import * as React from "react";
+import * as moment from "moment";
+
+import { addView, connector } from "@app/utils/redux";
 
 import style from "./style.scss";
-import { addView, connector } from "@app/utils/redux";
 
 function reducer(state = {}, action) {
   switch (action.type) {
@@ -14,8 +16,9 @@ function reducer(state = {}, action) {
 
 addView("home", reducer);
 
-class HomePage extends React.PureComponent {
+class HomePage extends React.PureComponent<any> {
   static fetchData({ store }) {
+    console.log(moment().format("DD-MM-YYYY"));
     return store.dispatch({ type: "INIT_VIEW", view: "home" });
   }
   render() {
