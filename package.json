@@ -7,9 +7,8 @@
 		"test-config": "webpack --config cli/test.config.js",
 		"start": "yarn dev",
 		"dev": "rm -rf dist && NODE_ENV=development ts-node cli/dev.ts",
-		"prod": "rm -rf dist && NODE_ENV=production ts-node cli/prod.ts",
-		"build": "yarn prod",
-		"analyzer": "webpack-bundle-analyzer dist/stats.json",
+		"build": "rm -rf dist && NODE_ENV=production ts-node cli/prod.ts",
+		"analyze": "ts-node cli/analyze.ts",
 		"lint": "eslint ./app ./server ./lib ./cli --ext .ts,.js || stylelint app/**/*.scss || true",
 		"format": "prettier --write \"{app,server,cli,lib}/**/*\""
 	},
