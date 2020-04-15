@@ -36,6 +36,7 @@ $size: 3em;
 
 	.spinnerInner3 {
 		$offset: $size * 0.1;
+
 		top: $offset;
 		left: $offset;
 		width: $size - ($offset * 2);
