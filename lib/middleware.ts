@@ -1,9 +1,9 @@
 const appMiddlewares = [];
 
 export function addMiddleware(name: string, fn: Function) {
-  appMiddlewares[name] = fn;
+	appMiddlewares[name] = fn;
 }
 
 export function middlewares() {
-  return appMiddlewares;
+	return appMiddlewares;
 }

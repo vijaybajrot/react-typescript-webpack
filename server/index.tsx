@@ -29,79 +29,79 @@ app.engine("html", renderFile);
 app.set("views", path.resolve("server/views"));
 
 app.get("**", async (req, res) => {
-  const store = createStore(undefined);
-  try {
-    store.dispatch({ type: "INIT_APP" });
-    await preload(App, { store, location: parsePath(req.url), isDev });
-    const headTags: any = [];
-    let html: string;
-    try {
-      html = renderToString(
-        <Provider store={store}>
-          <StaticRouter location={req.url} context={{}}>
-            <HeadProvider headTags={headTags}>
-              <App />
-            </HeadProvider>
-          </StaticRouter>
-        </Provider>
-      );
-    } catch (error) {
-      throw error;
-    }
-    const { js, css, assets } = getAssets();
-    const data = {
-      __DEV__: isDev(),
-      assets,
-      content: html,
-      state: store.getState(),
-      styles,
-      headTags: renderToString(headTags),
-      linkTags: css.join("\n"),
-      scriptTags: js.join("\n"),
-    };
-    return res.render("index", data);
-  } catch (error) {
-    return res.send(JSON.stringify({ error: error.toString() }, null, 2));
-  }
+	const store = createStore(undefined);
+	try {
+		store.dispatch({ type: "INIT_APP" });
+		await preload(App, { store, location: parsePath(req.url), isDev });
+		const headTags: any = [];
+		let html: string;
+		try {
+			html = renderToString(
+				<Provider store={store}>
+					<StaticRouter location={req.url} context={{}}>
+						<HeadProvider headTags={headTags}>
+							<App />
+						</HeadProvider>
+					</StaticRouter>
+				</Provider>,
+			);
+		} catch (error) {
+			throw error;
+		}
+		const { js, css, assets } = getAssets();
+		const data = {
+			__DEV__: isDev(),
+			assets,
+			content: html,
+			state: store.getState(),
+			styles,
+			headTags: renderToString(headTags),
+			linkTags: css.join("\n"),
+			scriptTags: js.join("\n"),
+		};
+		return res.render("index", data);
+	} catch (error) {
+		return res.send(JSON.stringify({ error: error.toString() }, null, 2));
+	}
 });
 
 function getAssets() {
-  const assets = loadAssets();
-  let css = [];
-  let js = [];
+	const assets = loadAssets();
+	let css = [];
+	let js = [];
 
-  if (isDev()) {
-    js = [`<script type="text/javascript" src="/dist/main.js"></script>`];
-  } else {
-    css = assets.script.css.map(
-      (css) => `<link rel="stylesheet" href="${css}"/>`
-    );
-    js = [
-      ...assets.module.js.map(
-        (module) => `<script type="module" src="${module}"></script>`
-      ),
-      ...assets.script.js.map(
-        (js) => `<script type="text/javascript" src="${js}" nomodule></script>`
-      ),
-    ];
-  }
+	if (isDev()) {
+		js = [`<script type="text/javascript" src="/dist/main.js"></script>`];
+	} else {
+		css = assets.script.css.map(
+			css => `<link rel="stylesheet" href="${css}"/>`,
+		);
+		js = [
+			...assets.module.js.map(
+				module => `<script type="module" src="${module}"></script>`,
+			),
+			...assets.script.js.map(
+				js => `<script type="text/javascript" src="${js}" nomodule></script>`,
+			),
+		];
+	}
 
-  return {
-    css,
-    js,
-    assets,
-  };
+	return {
+		css,
+		js,
+		assets,
+	};
 }
 
 function loadAssets() {
-  return JSON.parse(
-    fs.readFileSync(path.resolve("build/assets.json")).toString()
-  );
+	return JSON.parse(
+		fs.readFileSync(path.resolve("build/assets.json")).toString(),
+	);
 }
 
 const port = process.env.PORT || 3000;
 app.listen(port, () =>
-  console.log(
-    `Nodejs app running on http://localhost:${port} (${process.env.NODE_ENV}) `
-  )
+	console.log(
+		`Nodejs app running on http://localhost:${port} (${process.env.NODE_ENV}) `,
+	),
 );

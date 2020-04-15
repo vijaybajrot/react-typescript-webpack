@@ -3,52 +3,52 @@ $background: white;
 $size: 3em;
 
 .spinner {
-  position: absolute;
-  top: calc(50% - #{$size / 2});
-  left: calc(50% - #{$size / 2});
-  width: $size;
-  height: $size;
-  animation: spinner 0.75s linear infinite;
+	position: absolute;
+	top: calc(50% - #{$size / 2});
+	left: calc(50% - #{$size / 2});
+	width: $size;
+	height: $size;
+	animation: spinner 0.75s linear infinite;
 
-  span {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-  }
+	span {
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		border-radius: 50%;
+	}
 
-  .spinnerInner1 {
-    background: linear-gradient(
-      to right,
-      rgba($spinner, 0) 0%,
-      rgba($spinner, 0) 50%,
-      $spinner 51%
-    );
-  }
+	.spinnerInner1 {
+		background: linear-gradient(
+			to right,
+			rgba($spinner, 0) 0%,
+			rgba($spinner, 0) 50%,
+			$spinner 51%
+		);
+	}
 
-  .spinnerInner2 {
-    background: linear-gradient(
-      to top,
-      rgba($background, 0) 0%,
-      $background 100%
-    );
-  }
+	.spinnerInner2 {
+		background: linear-gradient(
+			to top,
+			rgba($background, 0) 0%,
+			$background 100%
+		);
+	}
 
-  .spinnerInner3 {
-    $offset: $size * 0.1;
-    top: $offset;
-    left: $offset;
-    width: $size - ($offset * 2);
-    height: $size - ($offset * 2);
-    background: $background;
-  }
+	.spinnerInner3 {
+		$offset: $size * 0.1;
+		top: $offset;
+		left: $offset;
+		width: $size - ($offset * 2);
+		height: $size - ($offset * 2);
+		background: $background;
+	}
 }
 
 @keyframes spinner {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(360deg);
+	}
 }
