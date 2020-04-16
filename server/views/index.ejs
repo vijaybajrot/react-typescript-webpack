@@ -1,55 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <%-headTags%> <%-styles%>
-  </head>
-  <body>
-    <div id="loader">
-      <div class="spinner">
-        <span class="spinnerInner1"></span>
-        <span class="spinnerInner2"></span>
-        <span class="spinnerInner3"></span>
-      </div>
-    </div>
-    <div id="root"><%-content%></div>
-    <script id="store-state" type="application/json">
-      <%-JSON.stringify(state)%>
-    </script>
-    <script id="webpackAssets" type="application/json">
-      <%-JSON.stringify(assets)%>
-    </script>
-    <% if (!__DEV__) { -%>
-    <script>
-      function loadWebpackAssets(type) {
-        var assets = JSON.parse(
-          document.getElementById("webpackAssets").textContent
-        )[type];
-        var css = assets.css;
-        for (var i = 0; i < css.length; i++) {
-          var el = document.createElement("link");
-          el.setAttribute("rel", "stylesheet");
-          el.setAttribute("href", css[i]);
-          document.head.appendChild(el);
-        }
-        var js = assets.js;
-        for (var i = 0; i < js.length; i++) {
-          var el = document.createElement("script");
-          el.setAttribute("src", js[i]);
-          document.head.appendChild(el);
-        }
-      }
-    </script>
-    <script type="module">
-      loadWebpackAssets("module");
-    </script>
-    <script type="text/javscript" nomodule>
-      loadWebpackAssets('script');
-    </script>
-    <% } else { -%>
-    <script type="text/javascript" src="/dist/main.js"></script>
-    <% } -%>
-  </body>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<%-headTags%> <%-styles%> <%-linkTags%>
+	</head>
+	<body>
+		<div id="loader">
+			<div class="spinner">
+				<span class="spinnerInner1"></span> <span class="spinnerInner2"></span>
+				<span class="spinnerInner3"></span>
+			</div>
+		</div>
+		<div id="root"><%-content%></div>
+		<script id="store-state" type="application/json">
+			<%-JSON.stringify(state)%>
+		</script>
+		<% if (!__DEV__) { -%> <%-scriptTags%> <% } else { -%>
+		<script type="text/javascript" src="/dist/main.js"></script>
+		<% } -%>
+	</body>
 </html>

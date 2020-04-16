@@ -35,19 +35,17 @@ app.get("**", async (req, res) => {
 		await preload(App, { store, location: parsePath(req.url), isDev });
 		const headTags: any = [];
 		let html: string;
-		try {
-			html = renderToString(
-				<Provider store={store}>
-					<StaticRouter location={req.url} context={{}}>
-						<HeadProvider headTags={headTags}>
-							<App />
-						</HeadProvider>
-					</StaticRouter>
-				</Provider>,
-			);
-		} catch (error) {
-			throw error;
-		}
+
+		html = renderToString(
+			<Provider store={store}>
+				<StaticRouter location={req.url} context={{}}>
+					<HeadProvider headTags={headTags}>
+						<App />
+					</HeadProvider>
+				</StaticRouter>
+			</Provider>,
+		);
+
 		const { js, css, assets } = getAssets();
 		const data = {
 			__DEV__: isDev(),
@@ -56,8 +54,8 @@ app.get("**", async (req, res) => {
 			state: store.getState(),
 			styles,
 			headTags: renderToString(headTags),
-			linkTags: css.join("\n"),
-			scriptTags: js.join("\n"),
+			linkTags: css.join(""),
+			scriptTags: js.join(""),
 		};
 		return res.render("index", data);
 	} catch (error) {
@@ -67,24 +65,19 @@ app.get("**", async (req, res) => {
 
 function getAssets() {
 	const assets = loadAssets();
-	let css = [];
-	let js = [];
 
-	if (isDev()) {
-		js = [`<script type="text/javascript" src="/dist/main.js"></script>`];
-	} else {
-		css = assets.script.css.map(
-			css => `<link rel="stylesheet" href="${css}"/>`,
-		);
-		js = [
-			...assets.module.js.map(
-				module => `<script type="module" src="${module}"></script>`,
-			),
-			...assets.script.js.map(
-				js => `<script type="text/javascript" src="${js}" nomodule></script>`,
-			),
-		];
-	}
+	let css = assets.script.css.map(
+		link => `<link rel="stylesheet" href="${link}"/>`,
+	);
+	let js = [
+		...assets.module.js.map(
+			module => `<script type="module" src="${module}"></script>`,
+		),
+		...assets.script.js.map(
+			script =>
+				`<script type="text/javascript" src="${script}" nomodule></script>`,
+		),
+	];
 
 	return {
 		css,
