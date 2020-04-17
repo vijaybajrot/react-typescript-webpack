@@ -2,11 +2,12 @@ require("dotenv").config();
 
 import * as fs from "fs";
 import * as path from "path";
+
 import * as React from "react";
-import { parsePath } from "history";
-import { renderFile } from "ejs";
 import * as express from "express";
 import { Express } from "express";
+import { parsePath } from "history";
+import { renderFile } from "ejs";
 import { renderToString } from "react-dom/server";
 import { StaticRouter } from "react-router";
 import { Provider } from "react-redux";
@@ -18,6 +19,7 @@ import { createStore } from "@app/store";
 
 import { isDev } from "./utils";
 
+// eslint-disable-next-line import/no-unresolved
 import style from "!!raw-loader!sass-loader!@app/components/Loading/style.scss";
 let styles = `<style>${style.toString().replace(/\s+/gm, " ")}</style>`;
 

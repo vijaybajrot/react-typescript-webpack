@@ -28,6 +28,7 @@ function main() {
 				}),
 			);
 		}
+		// eslint-disable-next-line no-console
 		console.log(
 			err ||
 				stats.toString({

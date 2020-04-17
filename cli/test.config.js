@@ -1,5 +1,5 @@
 const path = require("path");
-const LoadablePlugin = require("@loadable/webpack-plugin");
+
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
@@ -14,7 +14,6 @@ module.exports = {
 		chunkFilename: "[id].js",
 	},
 	plugins: [
-		new LoadablePlugin({ filename: "stats.json", writeToDisk: true }),
 		new MiniCssExtractPlugin({
 			filename: "[name].css",
 			chunkFilename: "[id].css",

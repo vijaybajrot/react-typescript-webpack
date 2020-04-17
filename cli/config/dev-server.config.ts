@@ -1,6 +1,6 @@
 import * as path from "path";
+
 import * as nodeExternals from "webpack-node-externals";
-import * as webpack from "webpack";
 
 import { alias, cacheLoader, postCssLoader } from "./common.config";
 

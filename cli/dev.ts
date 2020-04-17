@@ -24,6 +24,7 @@ function clientBuild() {
 	try {
 		compiler = webpack(clientConfig);
 	} catch (err) {
+		// eslint-disable-next-line no-console
 		console.error(err);
 	}
 
@@ -49,6 +50,7 @@ function serverBuild() {
 	let hash = null;
 	return compiler.watch(serverConfig.watchOptions, (err: any, stats: any) => {
 		if (err) {
+			// eslint-disable-next-line no-console
 			console.log(err.details || err);
 		}
 		if (!stats.hasErrors()) {
@@ -61,6 +63,7 @@ function serverBuild() {
 			}
 			hash = stats.hash;
 		} else {
+			// eslint-disable-next-line no-console
 			console.error(stats.toString("minimal"));
 		}
 	});

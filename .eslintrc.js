@@ -66,7 +66,7 @@ module.exports = {
 					["@lib", "./lib"],
 					["@server", "./server"],
 				],
-				extensions: [".ts", ".js", ".jsx", ".json", ".scss"],
+				extensions: [".ts", ".tsx", ".js", ".jsx", ".json", ".scss"],
 			},
 		},
 	},

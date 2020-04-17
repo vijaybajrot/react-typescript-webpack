@@ -1,6 +1,8 @@
 import * as path from "path";
+
 import * as webpack from "webpack";
-import { production, alias, cacheLoader, postCssLoader } from "./common.config";
+
+import { alias, cacheLoader, postCssLoader } from "./common.config";
 
 export default {
 	name: "client",
