@@ -18,6 +18,7 @@ import preload from "@app/lib/preload";
 import { createStore } from "@app/store";
 
 import { isDev } from "./utils";
+import "@server/database/connection";
 
 // eslint-disable-next-line import/no-unresolved
 import style from "!!raw-loader!sass-loader!@app/components/Loading/style.scss";
