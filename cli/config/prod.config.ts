@@ -17,8 +17,12 @@ export function createConfig(browser: boolean) {
 		output: {
 			publicPath: "/dist/",
 			path: path.resolve("dist"),
-			filename: "[name]-[contenthash].js",
-			chunkFilename: "[name]-[contenthash].js",
+			filename: browser
+				? "[name]-[contenthash].js"
+				: "[name]-runtime.[contenthash].js",
+			chunkFilename: browser
+				? "[name]-[contenthash].js"
+				: "[name]-runtime.[contenthash].js",
 		},
 		plugins: [
 			new webpack.ProgressPlugin(),
