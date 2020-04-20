@@ -78,6 +78,7 @@
 		"webpack-node-externals": "^1.7.2"
 	},
 	"dependencies": {
+		"@typescript-eslint/eslint-plugin": "^2.28.0",
 		"bootstrap": "^4.4.1",
 		"classnames": "^2.2.6",
 		"dotenv": "^8.2.0",

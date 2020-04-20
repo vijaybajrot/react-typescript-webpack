@@ -21,7 +21,7 @@ import { isDev } from "./utils";
 
 // eslint-disable-next-line import/no-unresolved
 import style from "!!raw-loader!sass-loader!@app/components/Loading/style.scss";
-let styles = `<style>${style.toString().replace(/\s+/gm, " ")}</style>`;
+const styles = `<style>${style.toString().replace(/\s+/gm, " ")}</style>`;
 
 const app: Express = express();
 

@@ -12,12 +12,12 @@ function MapTree() {
 }
 
 MapTree.prototype.has = function has(key) {
-	var keyObject = isPrimitive(key) ? this.primitiveKeys.get(key) : key;
+	const keyObject = isPrimitive(key) ? this.primitiveKeys.get(key) : key;
 	return keyObject ? this.childBranches.has(keyObject) : false;
 };
 
 MapTree.prototype.get = function get(key) {
-	var keyObject = isPrimitive(key) ? this.primitiveKeys.get(key) : key;
+	const keyObject = isPrimitive(key) ? this.primitiveKeys.get(key) : key;
 	return keyObject ? this.childBranches.get(keyObject) : undefined;
 };
 
@@ -25,8 +25,8 @@ MapTree.prototype.resolveBranch = function resolveBranch(key) {
 	if (this.has(key)) {
 		return this.get(key);
 	}
-	var newBranch = new MapTree();
-	var keyObject = this.createKey(key);
+	const newBranch = new MapTree();
+	const keyObject = this.createKey(key);
 	this.childBranches.set(keyObject, newBranch);
 	return newBranch;
 };
@@ -38,13 +38,14 @@ MapTree.prototype.setValue = function setValue(value) {
 
 MapTree.prototype.createKey = function createKey(key) {
 	if (isPrimitive(key)) {
-		var keyObject = {};
+		const keyObject = {};
 		this.primitiveKeys.set(key, keyObject);
 		return keyObject;
 	}
 	return key;
 };
 
+/* eslint-disable prefer-rest-params, prefer-spread */
 MapTree.prototype.clear = function clear() {
 	if (arguments.length === 0) {
 		this.childBranches = new WeakMap();
@@ -52,9 +53,9 @@ MapTree.prototype.clear = function clear() {
 		this.hasValue = false;
 		this.value = undefined;
 	} else if (arguments.length === 1) {
-		var key = arguments[0];
+		const key = arguments[0];
 		if (isPrimitive(key)) {
-			var keyObject = this.primitiveKeys.get(key);
+			const keyObject = this.primitiveKeys.get(key);
 			if (keyObject) {
 				this.childBranches.delete(keyObject);
 				this.primitiveKeys.delete(key);
@@ -63,9 +64,9 @@ MapTree.prototype.clear = function clear() {
 			this.childBranches.delete(key);
 		}
 	} else {
-		var childKey = arguments[0];
+		const childKey = arguments[0];
 		if (this.has(childKey)) {
-			var childBranch = this.get(childKey);
+			const childBranch = this.get(childKey);
 			childBranch.clear.apply(
 				childBranch,
 				Array.prototype.slice.call(arguments, 1),
@@ -75,17 +76,17 @@ MapTree.prototype.clear = function clear() {
 };
 
 export default function memoize(fn: Function) {
-	var argsTree = new MapTree();
+	const argsTree = new MapTree();
 
 	function memoized() {
-		var args = Array.prototype.slice.call(arguments);
-		var argNode = args.reduce(function getBranch(parentBranch, arg) {
+		const args = Array.prototype.slice.call(arguments);
+		const argNode = args.reduce(function getBranch(parentBranch, arg) {
 			return parentBranch.resolveBranch(arg);
 		}, argsTree);
 		if (argNode.hasValue) {
 			return argNode.value;
 		}
-		var value = fn.apply(null, args);
+		const value = fn.apply(null, args);
 		return argNode.setValue(value);
 	}
 

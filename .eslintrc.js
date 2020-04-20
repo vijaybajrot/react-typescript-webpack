@@ -5,6 +5,8 @@ module.exports = {
 	parser: "babel-eslint",
 	extends: [
 		"eslint:recommended",
+		"plugin:@typescript-eslint/eslint-recommended",
+		"plugin:@typescript-eslint/recommended",
 		"plugin:react/recommended",
 		"plugin:prettier/recommended",
 		"plugin:import/errors",
@@ -34,6 +36,15 @@ module.exports = {
 		semi: 0,
 		"no-unused-expressions": 0,
 		"valid-typeof": 0,
+
+		"@typescript-eslint/explicit-member-accessibility": "off",
+		"@typescript-eslint/explicit-function-return-type": "off",
+		"@typescript-eslint/no-explicit-any": "off",
+		"@typescript-eslint/no-non-null-assertion": "off",
+		"@typescript-eslint/camelcase": "off",
+		"@typescript-eslint/array-type": "off",
+		"@typescript-eslint/no-var-requires": "off",
+		"@typescript-eslint/no-use-before-define": "off",
 
 		"react-hooks/rules-of-hooks": 2,
 		"react-hooks/exhaustive-deps": 1,
