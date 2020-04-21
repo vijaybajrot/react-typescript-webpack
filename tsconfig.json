@@ -1,20 +1,22 @@
 {
-  "compilerOptions": {
-    "sourceMap": false,
-    "noImplicitAny": false,
-    "module": "commonjs",
-    "target": "es6",
-    "lib": ["es2015", "es2017", "dom"],
-    "removeComments": true,
-    "allowSyntheticDefaultImports": false,
-    "jsx": "react",
-    "allowJs": true,
-    "baseUrl": "./",
-    "typeRoots": ["./typings"],
-    "paths": {
-      "@app/*": ["app/*"],
-      "@server/*": ["server/*"],
-      "@lib/*": ["lib/*"]
-    }
-  }
+	"compilerOptions": {
+		"sourceMap": false,
+		"noImplicitAny": false,
+		"module": "commonjs",
+		"target": "es6",
+		"lib": ["es2015", "es2017", "dom"],
+		"removeComments": true,
+		"allowSyntheticDefaultImports": false,
+		"jsx": "react",
+		"allowJs": true,
+		"baseUrl": "./",
+		"typeRoots": ["./typings"],
+		"experimentalDecorators": true,
+		"emitDecoratorMetadata": true,
+		"paths": {
+			"@app/*": ["app/*"],
+			"@server/*": ["server/*"],
+			"@lib/*": ["lib/*"]
+		}
+	}
 }

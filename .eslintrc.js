@@ -66,6 +66,13 @@ module.exports = {
 		],
 	},
 
+	parserOptions: {
+		ecmaFeatures: {
+			legacyDecorators: true,
+			jsx: true,
+		},
+	},
+
 	settings: {
 		react: {
 			version: "detect",

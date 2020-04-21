@@ -1,3 +1,5 @@
+import * as path from "path";
+
 import { Sequelize } from "sequelize-typescript";
 
 const sequelize = new Sequelize({
@@ -7,9 +9,7 @@ const sequelize = new Sequelize({
 	password: "",
 	database: "react_typescript",
 	dialectOptions: {},
-	models: [__dirname + "/models"],
+	models: [path.resolve(__dirname + "/models")],
 });
-
-//sequelize.authenticate();
 
 export default sequelize;

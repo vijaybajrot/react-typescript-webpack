@@ -1,4 +1,4 @@
-exports.up = (queryInterface, DataTypes) => {
+module.exports.up = (queryInterface, DataTypes) => {
 	return queryInterface.createTable("users", {
 		id: {
 			allowNull: false,
@@ -13,6 +13,6 @@ exports.up = (queryInterface, DataTypes) => {
 	});
 };
 
-exports.down = queryInterface => {
+module.exports.down = queryInterface => {
 	return queryInterface.dropTable("users");
 };

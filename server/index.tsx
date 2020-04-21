@@ -16,9 +16,9 @@ import { HeadProvider } from "react-head";
 import App from "@app/App";
 import preload from "@app/lib/preload";
 import { createStore } from "@app/store";
+import connection from "@server/database/connection";
 
 import { isDev } from "./utils";
-import "@server/database/connection";
 
 // eslint-disable-next-line import/no-unresolved
 import style from "!!raw-loader!sass-loader!@app/components/Loading/style.scss";
@@ -31,15 +31,15 @@ app.set("view engine", "ejs");
 app.engine("html", renderFile);
 app.set("views", path.resolve("server/views"));
 
+connection.authenticate();
+
 app.get("**", async (req, res) => {
 	const store = createStore(undefined);
 	try {
 		store.dispatch({ type: "INIT_APP" });
 		await preload(App, { store, location: parsePath(req.url), isDev });
 		const headTags: any = [];
-		let html: string;
-
-		html = renderToString(
+		const html = renderToString(
 			<Provider store={store}>
 				<StaticRouter location={req.url} context={{}}>
 					<HeadProvider headTags={headTags}>
@@ -69,10 +69,10 @@ app.get("**", async (req, res) => {
 function getAssets() {
 	const assets = loadAssets();
 
-	let css = assets.script.css.map(
+	const css = assets.script.css.map(
 		link => `<link rel="stylesheet" href="${link}"/>`,
 	);
-	let js = [
+	const js = [
 		...assets.module.js.map(
 			module => `<script type="module" src="${module}"></script>`,
 		),
@@ -97,6 +97,7 @@ function loadAssets() {
 
 const port = process.env.PORT || 3000;
 app.listen(port, () =>
+	// eslint-disable-next-line no-console
 	console.log(
 		`Nodejs app running on http://localhost:${port} (${process.env.NODE_ENV}) `,
 	),
