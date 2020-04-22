@@ -17,6 +17,7 @@ import App from "@app/App";
 import preload from "@app/lib/preload";
 import { createStore } from "@app/store";
 import connection from "@server/database/connection";
+import graphqlHttp from "@server/graphql";
 
 import { isDev } from "./utils";
 
@@ -24,47 +25,58 @@ import { isDev } from "./utils";
 import style from "!!raw-loader!sass-loader!@app/components/Loading/style.scss";
 const styles = `<style>${style.toString().replace(/\s+/gm, " ")}</style>`;
 
-const app: Express = express();
+async function main() {
+	const app: Express = express();
 
-app.use("/dist", express.static("dist"));
-app.set("view engine", "ejs");
-app.engine("html", renderFile);
-app.set("views", path.resolve("server/views"));
+	app.use("/dist", express.static("dist"));
+	app.set("view engine", "ejs");
+	app.engine("html", renderFile);
+	app.set("views", path.resolve("server/views"));
 
-connection.authenticate();
+	connection.authenticate();
+	app.use("/graphql", graphqlHttp());
 
-app.get("**", async (req, res) => {
-	const store = createStore(undefined);
-	try {
-		store.dispatch({ type: "INIT_APP" });
-		await preload(App, { store, location: parsePath(req.url), isDev });
-		const headTags: any = [];
-		const html = renderToString(
-			<Provider store={store}>
-				<StaticRouter location={req.url} context={{}}>
-					<HeadProvider headTags={headTags}>
-						<App />
-					</HeadProvider>
-				</StaticRouter>
-			</Provider>,
-		);
+	app.get("**", async (req, res) => {
+		const store = createStore(undefined);
+		try {
+			store.dispatch({ type: "INIT_APP" });
+			await preload(App, { store, location: parsePath(req.url), isDev });
+			const headTags: any = [];
+			const html = renderToString(
+				<Provider store={store}>
+					<StaticRouter location={req.url} context={{}}>
+						<HeadProvider headTags={headTags}>
+							<App />
+						</HeadProvider>
+					</StaticRouter>
+				</Provider>,
+			);
 
-		const { js, css, assets } = getAssets();
-		const data = {
-			__DEV__: isDev(),
-			assets,
-			content: html,
-			state: store.getState(),
-			styles,
-			headTags: renderToString(headTags),
-			linkTags: css.join(""),
-			scriptTags: js.join(""),
-		};
-		return res.render("index", data);
-	} catch (error) {
-		return res.send(JSON.stringify({ error: error.toString() }, null, 2));
-	}
-});
+			const { js, css, assets } = getAssets();
+			const data = {
+				__DEV__: isDev(),
+				assets,
+				content: html,
+				state: store.getState(),
+				styles,
+				headTags: renderToString(headTags),
+				linkTags: css.join(""),
+				scriptTags: js.join(""),
+			};
+			return res.render("index", data);
+		} catch (error) {
+			return res.send(JSON.stringify({ error: error.toString() }, null, 2));
+		}
+	});
+
+	const port = process.env.PORT || 3000;
+	app.listen(port, () =>
+		// eslint-disable-next-line no-console
+		console.log(
+			`Nodejs app running on http://localhost:${port} (${process.env.NODE_ENV}) `,
+		),
+	);
+}
 
 function getAssets() {
 	const assets = loadAssets();
@@ -95,10 +107,4 @@ function loadAssets() {
 	);
 }
 
-const port = process.env.PORT || 3000;
-app.listen(port, () =>
-	// eslint-disable-next-line no-console
-	console.log(
-		`Nodejs app running on http://localhost:${port} (${process.env.NODE_ENV}) `,
-	),
-);
+main();
