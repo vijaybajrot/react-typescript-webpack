@@ -94,6 +94,10 @@ export default {
 					emitFile: false,
 				},
 			},
+			{
+				test: /\.graphql$/,
+				loader: "raw-loader",
+			},
 		],
 	},
 	externals: ["@loadable/component", nodeExternals()],

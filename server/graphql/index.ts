@@ -1,16 +1,29 @@
 import * as expressGraphql from "express-graphql";
-import { buildSchema } from "graphql";
+import { makeExecutableSchema } from "graphql-tools";
 
-import schema from "./schema.graphql";
+import modules from "@server/modules";
 
-const root = {
-	hello: () => "Graphql working",
-};
+import rootSchema from "./schema.graphql";
+
+const schemas = [rootSchema];
+const resolvers = [];
+modules.forEach(mod => {
+	if (mod.schema) {
+		schemas.push(mod.schema);
+	}
+	if (mod.resolver) {
+		resolvers.push(mod.resolver);
+	}
+});
+
+const schema = makeExecutableSchema({
+	typeDefs: schemas,
+	resolvers,
+});
 
 export default function () {
 	return expressGraphql({
-		schema: buildSchema(schema),
-		rootValue: root,
+		schema,
 		graphiql: true,
 	});
 }
