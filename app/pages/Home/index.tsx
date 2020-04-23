@@ -2,6 +2,7 @@ import * as React from "react";
 import * as moment from "moment";
 
 import { addView, connector } from "@app/utils/redux";
+import { graphQL, gql } from "@app/utils/api";
 
 import style from "./style.scss";
 
@@ -20,6 +21,14 @@ class HomePage extends React.PureComponent<any> {
 	static fetchData({ store }) {
 		console.log(moment().format("DD-MM-YYYY"));
 		return store.dispatch({ type: "INIT_VIEW", view: "home" });
+	}
+	async componentDidMount() {
+		const { hello } = await graphQL<{ hello: string }, any>(gql`
+			query {
+				hello
+			}
+		`);
+		console.log(hello);
 	}
 	render() {
 		//console.log({ page: this.props });

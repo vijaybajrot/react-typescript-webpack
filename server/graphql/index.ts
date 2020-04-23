@@ -19,6 +19,7 @@ modules.forEach(mod => {
 const schema = makeExecutableSchema({
 	typeDefs: schemas,
 	resolvers,
+	inheritResolversFromInterfaces: true,
 });
 
 export default function () {
