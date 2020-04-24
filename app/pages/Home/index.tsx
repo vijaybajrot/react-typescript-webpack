@@ -1,5 +1,4 @@
 import * as React from "react";
-import * as moment from "moment";
 
 import { addView, connector } from "@app/utils/redux";
 import { graphQL, gql } from "@app/utils/api";
@@ -19,7 +18,6 @@ addView("home", reducer);
 
 class HomePage extends React.PureComponent<any> {
 	static fetchData({ store }) {
-		console.log(moment().format("DD-MM-YYYY"));
 		return store.dispatch({ type: "INIT_VIEW", view: "home" });
 	}
 	async componentDidMount() {

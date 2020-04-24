@@ -1,5 +1,9 @@
 import axios from "axios";
 
+class CancelablePromise<T> extends Promise<T> {
+	cancel: () => void;
+}
+
 export function gql(strings: TemplateStringsArray, ...exprs: string[]): string {
 	const result = [strings[0]];
 	const len = exprs.length;
@@ -7,6 +11,12 @@ export function gql(strings: TemplateStringsArray, ...exprs: string[]): string {
 		result.push(exprs[i], strings[i + 1]);
 	}
 	return result.join("");
+}
+
+export function makeCancelable<T>(promise: T, cancelFn: () => void) {
+	const cancelablePromise: CancelablePromise<T> | any = promise;
+	cancelablePromise.cancel = cancelFn;
+	return cancelablePromise;
 }
 
 export function graphQL<T, V>(
@@ -26,20 +36,25 @@ export function graphQL<T, V>(
 		},
 	};
 
-	const request = axios(requestOptions);
-	//const result: { data?: T; error?: any } = {};
-	return new Promise((resolve, reject) => {
-		request.then(
-			response => {
-				if (response.status === 200) {
-					const data = response.data.data;
-					resolve(data);
-				}
-			},
-			error => {
-				console.error(error);
-				reject(error);
-			},
-		);
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	let request;
+	return new Promise(resolve => {
+		request = callAPI(resolve, requestOptions);
 	});
+}
+
+function callAPI<T>(resolveFn: (T) => void, requestOptions: object) {
+	const request = axios(requestOptions);
+	request.then(
+		response => {
+			if (response.status === 200) {
+				const data = response.data.data;
+				resolveFn(data);
+			}
+		},
+		error => {
+			// eslint-disable-next-line no-console
+			console.error(error);
+		},
+	);
 }
