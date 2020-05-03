@@ -16,7 +16,7 @@ import { HeadProvider } from "react-head";
 import App from "@app/App";
 import preload from "@app/lib/preload";
 import { createStore } from "@app/store";
-import connection from "@server/database/connection";
+import { connectDatabase } from "@server/database";
 import graphqlHttp from "@server/graphql";
 
 import { isDev } from "./utils";
@@ -33,7 +33,7 @@ async function main() {
 	app.engine("html", renderFile);
 	app.set("views", path.resolve("server/views"));
 
-	connection.authenticate();
+	connectDatabase();
 	app.use("/graphql", graphqlHttp());
 
 	app.get("**", async (req, res) => {

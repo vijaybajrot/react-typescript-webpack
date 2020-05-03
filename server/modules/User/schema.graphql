@@ -1,3 +1,14 @@
+type User {
+	id: Int!
+	name: String!
+	createdAt: String
+	updatedAt: String
+}
+
 extend type Query {
-	hello: String
+	Users: [User!]!
+}
+
+extend type Mutation {
+	SaveUser(name: String): Boolean
 }

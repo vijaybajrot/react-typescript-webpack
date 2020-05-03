@@ -10,7 +10,8 @@
 		"build": "rm -rf dist && NODE_ENV=production ts-node cli/prod.ts",
 		"analyze": "ts-node cli/analyze.ts",
 		"lint": "eslint ./app ./server ./lib ./cli --ext .ts,.js || stylelint app/**/*.scss || true",
-		"format": "prettier --write \"{app,server,cli,lib}/**/*\""
+		"format": "prettier --write \"{app,server,cli,lib}/**/*\"",
+		"tsc": "tsc"
 	},
 	"devDependencies": {
 		"@babel/core": "^7.8.7",

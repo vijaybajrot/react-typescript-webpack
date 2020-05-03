@@ -3,4 +3,5 @@ const path = require("path");
 module.exports = {
 	config: path.resolve(__dirname + "/server/database/config.js"),
 	"migrations-path": path.resolve(__dirname + "/server/database/migrations"),
+	"models-path": path.resolve(__dirname + "/server/models"),
 };

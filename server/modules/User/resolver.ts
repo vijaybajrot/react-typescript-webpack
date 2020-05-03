@@ -1,9 +1,18 @@
-async function hello() {
-	return "Welcome here";
+import { db } from "@server/database";
+
+async function Users() {
+	return db.User.findAll();
+}
+
+async function SaveUser(_, args) {
+	return true;
 }
 
 export default {
 	Query: {
-		hello,
+		Users,
+	},
+	Mutation: {
+		SaveUser,
 	},
 };
