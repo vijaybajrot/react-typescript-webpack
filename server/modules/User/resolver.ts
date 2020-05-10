@@ -1,18 +1,32 @@
 import { db } from "@server/database";
 
-async function Users() {
-	return db.User.findAll();
+function dump(vars) {
+	// eslint-disable-next-line no-console
+	console.log(JSON.stringify(vars, null, 2));
 }
 
-async function SaveUser(_, args) {
+async function allUsers(_, __, ctx) {
+	const data = await db.User.findAll({
+		include: [
+			{
+				as: "posts",
+				association: db.User.posts,
+				required: false,
+			},
+		],
+	});
+	return data;
+}
+
+async function createUser(_, args) {
 	return true;
 }
 
 export default {
 	Query: {
-		Users,
+		allUsers,
 	},
 	Mutation: {
-		SaveUser,
+		createUser,
 	},
 };

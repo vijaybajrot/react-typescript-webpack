@@ -20,13 +20,20 @@ export function connectDatabase(): Promise<void> {
 
 interface DatabaseModel {
 	User: ModelCtor<Model>;
+	Post: ModelCtor<Model>;
 }
 
-const dbModels = {};
+const DBModels = {};
 const modelsDir = path.resolve("server/models");
 fs.readdirSync(modelsDir).forEach(function (file) {
 	const model = sequelize.import(path.join(modelsDir, file));
-	dbModels[model.name] = model;
+	DBModels[model.name] = model;
 });
 
-export const db: DatabaseModel = dbModels;
+for (const model in DBModels) {
+	if (DBModels[model] && DBModels[model].associate) {
+		DBModels[model].associate(DBModels);
+	}
+}
+
+export const db: DatabaseModel = DBModels;

@@ -2,7 +2,7 @@
 
 module.exports = (sequelize, DataTypes) => {
 	const model = sequelize.define(
-		"User",
+		"Post",
 		{
 			id: {
 				allowNull: false,
@@ -10,18 +10,24 @@ module.exports = (sequelize, DataTypes) => {
 				primaryKey: true,
 				type: DataTypes.INTEGER,
 			},
-			name: {
+			userId: {
+				allowNull: false,
+				type: DataTypes.INTEGER,
+			},
+			title: {
 				allowNull: false,
 				type: DataTypes.STRING,
 			},
+			body: {
+				allowNull: true,
+				type: DataTypes.STRING,
+			},
 		},
-		{ tableName: "users" },
+		{ tableName: "posts" },
 	);
 
 	model.associate = models => {
-		model.posts = model.hasMany(models.Post, {
-			as: "posts",
-		});
+		model.user = model.belongsTo(models.User);
 	};
 
 	return model;

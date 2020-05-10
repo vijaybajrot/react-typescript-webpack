@@ -1,3 +1,4 @@
 import User from "./User";
+import Post from "./Post";
 
-export default [User];
+export default [User, Post];

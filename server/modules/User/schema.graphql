@@ -3,12 +3,13 @@ type User {
 	name: String!
 	createdAt: String
 	updatedAt: String
+	posts: [Post!]!
 }
 
 extend type Query {
-	Users: [User!]!
+	allUsers: [User!]!
 }
 
 extend type Mutation {
-	SaveUser(name: String): Boolean
+	createUser(name: String): Boolean
 }
