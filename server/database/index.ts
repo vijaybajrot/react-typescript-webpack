@@ -19,12 +19,12 @@ export function connectDatabase(): Promise<void> {
 	return sequelize.authenticate();
 }
 
-interface DatabaseModel {
-	User: ModelCtor<Model>;
-	Post: ModelCtor<Model>;
+export interface DatabaseModel {
+	User?: ModelCtor<Model>;
+	Post?: ModelCtor<Model>;
 }
 
-const DBModels = {};
+const DBModels: DatabaseModel = {};
 const modelsDir = path.resolve("server/models");
 fs.readdirSync(modelsDir).forEach(function (file) {
 	const model = sequelize.import(path.join(modelsDir, file));

@@ -1,9 +1,10 @@
 import * as DataLoader from "dataloader";
 
 import { db, Op } from "@server/database";
+import type { Context } from "@server/graphql";
 
-async function allPosts() {
-	return await db.Post.findAll();
+async function allPosts(_, __, ctx: Context) {
+	return ctx.database.Post.findAll();
 }
 
 // Load users by data loader
