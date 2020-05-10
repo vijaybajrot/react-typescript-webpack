@@ -1,20 +1,32 @@
-import { db } from "@server/database";
+import * as DataLoader from "dataloader";
+
+import { db, Op } from "@server/database";
 
 async function allPosts() {
 	return await db.Post.findAll();
 }
 
-async function postUser(post) {
-	return await db.User.findOne({
+// Load users by data loader
+export const userLoader = new DataLoader(userByPostIds);
+async function userByPostIds(ids: Array<number>) {
+	const users = await db.User.findAll({
 		where: {
-			id: post.userId,
+			id: {
+				[Op.in]: ids,
+			},
 		},
+		raw: true,
 	});
+	const userMap: { [key: number]: any } = {};
+	users.forEach((user: any) => {
+		userMap[user.id] = user;
+	});
+	return ids.map(id => userMap[id]);
 }
 
 export default {
 	Post: {
-		user: postUser,
+		user: (post, _, ctx) => ctx.loaders.userLoader.load(post.id),
 	},
 	Query: {
 		allPosts,

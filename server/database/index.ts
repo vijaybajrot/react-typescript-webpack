@@ -3,6 +3,7 @@ import * as path from "path";
 
 import { Sequelize, Model, ModelCtor } from "sequelize";
 
+export { Op } from "sequelize";
 export const sequelize = new Sequelize(
 	process.env.DB_DATABASE || "react_typescript",
 	process.env.DB_USER || "root",
