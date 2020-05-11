@@ -1,7 +1,7 @@
 import * as DataLoader from "dataloader";
 
 import { db, Op } from "@server/database";
-import type { Context } from "@server/graphql";
+import { Context } from "@server/graphql";
 
 async function allPosts(_, __, ctx: Context) {
 	return ctx.database.Post.findAll();
@@ -27,7 +27,7 @@ async function userByPostIds(ids: Array<number>) {
 
 export default {
 	Post: {
-		user: (post, _, ctx) => ctx.loaders.userLoader.load(post.id),
+		user: (post, _, ctx: Context) => ctx.loaders.userLoader.load(post.id),
 	},
 	Query: {
 		allPosts,

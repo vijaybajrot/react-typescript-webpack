@@ -38,7 +38,7 @@ const schema = makeExecutableSchema({
 export type Context = {
 	database: DatabaseModel;
 	loaders: {
-		[key: string]: typeof DataLoader;
+		[key: string]: any;
 	};
 };
 

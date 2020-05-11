@@ -3,14 +3,16 @@ import * as path from "path";
 
 import { Sequelize, Model, ModelCtor } from "sequelize";
 
+import { env } from "@server/utils";
+
 export { Op } from "sequelize";
 export const sequelize = new Sequelize(
-	process.env.DB_DATABASE || "react_typescript",
-	process.env.DB_USER || "root",
-	process.env.DB_PASSWORD || "",
+	env("DB_DATABASE", "react_typescript"),
+	env("DB_USER", "root"),
+	env("DB_PASSWORD", ""),
 	{
 		dialect: "mysql",
-		host: process.env.DB_HOST || "localhost",
+		host: env("DB_HOST", "localhost"),
 		logging: true,
 	},
 );
