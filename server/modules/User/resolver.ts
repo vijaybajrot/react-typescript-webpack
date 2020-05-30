@@ -1,16 +1,11 @@
-import { db } from "@server/database";
-
-function dump(vars) {
-	// eslint-disable-next-line no-console
-	console.log(JSON.stringify(vars, null, 2));
-}
+import { db } from '@server/database';
 
 async function allUsers(_, __, ctx) {
 	const data = await db.User.findAll({
 		include: [
 			{
-				as: "posts",
-				association: db.User.posts,
+				as: 'posts',
+				association: (db.User as any).posts,
 				required: false,
 			},
 		],

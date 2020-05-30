@@ -2,13 +2,14 @@
 
 module.exports = {
 	root: true,
-	parser: "babel-eslint",
+	parser: "@typescript-eslint/parser",
 	extends: [
 		"eslint:recommended",
-		"plugin:@typescript-eslint/eslint-recommended",
+		//"plugin:@typescript-eslint/eslint-recommended",
 		"plugin:@typescript-eslint/recommended",
 		"plugin:react/recommended",
-		"plugin:prettier/recommended",
+		//"plugin:prettier/recommended",
+		"prettier/@typescript-eslint",
 		"plugin:import/errors",
 		"plugin:import/warnings",
 		"prettier/react",
@@ -19,7 +20,7 @@ module.exports = {
 		es6: true,
 		node: true,
 	},
-	plugins: ["react", "babel", "import", "react-hooks"],
+	plugins: ["@typescript-eslint", "react", "babel", "import", "react-hooks"],
 	rules: {
 		"no-console": ["warn"],
 		"react/prop-types": "off",
@@ -45,6 +46,7 @@ module.exports = {
 		"@typescript-eslint/array-type": "off",
 		"@typescript-eslint/no-var-requires": "off",
 		"@typescript-eslint/no-use-before-define": "off",
+		"@typescript-eslint/no-unused-vars": "off",
 
 		"react-hooks/rules-of-hooks": 2,
 		"react-hooks/exhaustive-deps": 1,
