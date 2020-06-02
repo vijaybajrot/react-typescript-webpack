@@ -1,22 +1,22 @@
-import * as React from "react";
-import { Route, Switch } from "react-router";
-import { Title, Meta } from "react-head";
-import Container from "react-bootstrap/Container";
+import * as React from 'react';
+import { Route, Switch } from 'react-router';
+import { Title, Meta } from 'react-head';
+import Container from 'react-bootstrap/Container';
 
-import routes from "@app/routes";
-import Header from "@app/components/Header";
+import routes from '@app/routes';
+import Header from '@app/components/Header';
 
-import "./app.scss";
+import './app.scss';
 
 export function inspectError(err: any) {
-	if (process.env.NODE_ENV === "production") {
-		return "INTERNAL_ERROR";
+	if (process.env.NODE_ENV === 'production') {
+		return 'INTERNAL_ERROR';
 	} else if (!err) {
-		return "INTERNAL_ERROR";
+		return 'INTERNAL_ERROR';
 	} else if (Array.isArray(err)) {
 		return err.map(inspectError);
 	} else if (err instanceof Error) {
-		return err.stack.split("\n") || err.toString();
+		return err.stack.split('\n') || err.toString();
 	} else {
 		return err;
 	}
@@ -28,7 +28,7 @@ export default class App extends React.PureComponent {
 	static getDerivedStateFromError(error) {
 		return {
 			error: {
-				code: error.code === "404" ? "404" : "500",
+				code: error.code === '404' ? '404' : '500',
 				data: inspectError(error),
 			},
 		};
@@ -39,7 +39,7 @@ export default class App extends React.PureComponent {
 	};
 
 	render() {
-		const error = this.state.error || this.props.error;
+		const error = this.state.error || (this.props as any).error;
 		return (
 			<>
 				<Title>React Head</Title>

@@ -1,6 +1,6 @@
-import * as React from "react";
+import * as React from 'react';
 
-import Loading from "@app/components/Loading";
+import Loading from '@app/components/Loading';
 
 function Loader(props) {
 	const { id, loader, load, forwardedProps, forwardedRef } = props;
@@ -41,7 +41,7 @@ export function loadable(load, forwardRef = false, loader = <Loading />, id) {
 			/>
 		);
 	}
-	Component.displayName = "LoadableComponent";
+	Component.displayName = 'LoadableComponent';
 	const Loadable = forwardRef
 		? // eslint-disable-next-line
 		  React.forwardRef((props, ref) => (

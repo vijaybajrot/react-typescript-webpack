@@ -1,3 +1,8 @@
-.HomeHeading {
-	color: blue;
+@import '@app/_mixins';
+@import '@app/_variables';
+
+.ArticleRow {
+	:global(.card-title) {
+		color: $dark;
+	}
 }
