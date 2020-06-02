@@ -1,23 +1,23 @@
-import * as express from "express";
-import { Express } from "express";
-import * as webpack from "webpack";
-import * as nodemon from "nodemon";
-import * as httpProxy from "http-proxy";
-import * as webpackDevMiddleware from "webpack-dev-middleware";
+import * as express from 'express';
+import { Express } from 'express';
+import * as webpack from 'webpack';
+import * as nodemon from 'nodemon';
+import * as httpProxy from 'http-proxy';
+import * as webpackDevMiddleware from 'webpack-dev-middleware';
 
 function main() {
 	clientBuild();
 	serverBuild();
-	process.once("SIGINT", () => {
+	process.once('SIGINT', () => {
 		process.exit(0);
 	});
 }
 
 function clientBuild() {
-	const clientConfig = require("./config/dev.config").default;
+	const clientConfig = require('./config/dev.config').default;
 	const app: Express = express();
 	const proxy = httpProxy.createProxyServer({
-		target: "http://localhost:5000",
+		target: 'http://localhost:5000',
 		secure: false,
 	});
 	let compiler;
@@ -29,23 +29,23 @@ function clientBuild() {
 	}
 
 	const devMiddleware = webpackDevMiddleware(compiler, {
-		logLevel: "info",
+		logLevel: 'info',
 		publicPath: clientConfig.output.publicPath,
 		serverSideRender: true,
-		writeToDisk: true,
+		//writeToDisk: true,
 	});
 	app.use(devMiddleware);
-	app.use(require("webpack-hot-middleware")(compiler));
+	app.use(require('webpack-hot-middleware')(compiler));
 
 	app.use((req, res) => proxy.web(req, res));
-	proxy.on("error", (err, req, res) => res.status(503).send(err));
-	const server = require("http").createServer(app);
+	proxy.on('error', (err, req, res) => res.status(503).send(err));
+	const server = require('http').createServer(app);
 	return server.listen(5001);
 }
 
 function serverBuild() {
 	const inspect = process.env.APP_DEBUG || false;
-	const serverConfig = require("./config/dev-server.config").default;
+	const serverConfig = require('./config/dev-server.config').default;
 	const compiler = webpack(serverConfig);
 	let hash = null;
 	return compiler.watch(serverConfig.watchOptions, (err: any, stats: any) => {
@@ -56,15 +56,15 @@ function serverBuild() {
 		if (!stats.hasErrors()) {
 			if (hash === null) {
 				nodemon(
-					(inspect ? "--inspect" : "") +
-						" build/main.js" +
-						" --watch build --watch backend",
+					(inspect ? '--inspect' : '') +
+						' build/main.js' +
+						' --watch build --watch backend',
 				);
 			}
 			hash = stats.hash;
 		} else {
 			// eslint-disable-next-line no-console
-			console.error(stats.toString("minimal"));
+			console.error(stats.toString('minimal'));
 		}
 	});
 }
