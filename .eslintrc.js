@@ -25,7 +25,7 @@ module.exports = {
 		'no-console': ['warn'],
 		'react/prop-types': 'off',
 
-		'babel/camelcase': 1,
+		'babel/camelcase': 0,
 		'babel/no-invalid-this': 1,
 		'babel/semi': 1,
 		'babel/no-unused-expressions': 1,
@@ -37,6 +37,8 @@ module.exports = {
 		semi: 0,
 		'no-unused-expressions': 0,
 		'valid-typeof': 0,
+		'prefer-const': 0,
+		'no-mixed-spaces-and-tabs': 0,
 
 		'@typescript-eslint/explicit-member-accessibility': 'off',
 		'@typescript-eslint/explicit-function-return-type': 'off',

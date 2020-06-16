@@ -27,6 +27,10 @@ const routes: Array<RouterProps> = [
 			async () => (await import('@app/pages/Post/create')).CreatePost,
 		),
 	},
+	{
+		path: '/posts/:id',
+		component: loadable(async () => (await import('@app/pages/Post')).default),
+	},
 ];
 
 export default routes;

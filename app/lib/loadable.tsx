@@ -2,6 +2,9 @@ import * as React from 'react';
 
 import Loading from '@app/components/Loading';
 
+declare let __webpack_modules__: any;
+declare function __webpack_require__(...args): any;
+
 function Loader(props) {
 	const { id, loader, load, forwardedProps, forwardedRef } = props;
 	let [component, setComponent] = React.useState(() => props.component);
@@ -29,7 +32,19 @@ Loader.defaultProps = {
 	loader: <Loading />,
 };
 
-export function loadable(load, forwardRef = false, loader = <Loading />, id) {
+type LoadableFunction<T = any> = (
+	load: () => T,
+	forwardRef?: boolean,
+	loader?: JSX.Element,
+	id?: any,
+) => any;
+
+export const loadable: LoadableFunction = (
+	load,
+	forwardRef = false,
+	loader = <Loading />,
+	id,
+) => {
 	function Component(props) {
 		return (
 			<Loader
@@ -37,12 +52,12 @@ export function loadable(load, forwardRef = false, loader = <Loading />, id) {
 				load={load}
 				loader={loader}
 				forwardedProps={props}
-				component={Component._component}
+				component={(Component as any)._component}
 			/>
 		);
 	}
 	Component.displayName = 'LoadableComponent';
-	const Loadable = forwardRef
+	const Loadable: any = forwardRef
 		? // eslint-disable-next-line
 		  React.forwardRef((props, ref) => (
 				<Component {...props} forwardedRef={ref} />
@@ -53,4 +68,4 @@ export function loadable(load, forwardRef = false, loader = <Loading />, id) {
 	Loadable.load = load;
 
 	return Loadable;
-}
+};

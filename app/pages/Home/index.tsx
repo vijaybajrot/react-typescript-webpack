@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Link } from 'react-router-dom';
 import Card from 'react-bootstrap/Card';
 
 import { addView, connector } from '@app/utils/redux';
@@ -33,7 +34,6 @@ const POST_QUERY = gql`
 
 class HomePage extends React.PureComponent<any> {
 	static async fetchData({ store }) {
-		//return store.dispatch({ type: 'INIT_VIEW', view: 'home', data: [] });
 		const { allPosts } = await graphQL<{ allPosts: Array<any> }, any>(
 			POST_QUERY,
 		);
@@ -54,7 +54,7 @@ class HomePage extends React.PureComponent<any> {
 										Posted By {item.author.name}
 									</Card.Subtitle>
 									<Card.Text>{item.body}</Card.Text>
-									<Card.Link href='#'>View Full Article</Card.Link>
+									<Link to={`/posts/${item.id}`}>View Full Article</Link>
 								</Card.Body>
 							</Card>
 						);
